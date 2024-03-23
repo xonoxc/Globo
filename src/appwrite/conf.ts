@@ -16,7 +16,7 @@ export class Service {
 		this.bucket = new Storage(this.client)
 	}
 
-	async createPost({ title, content, image, status, userid }: { title: string, slug: string, content: string, image: string, status: string, userid: string }) {
+	async createPost({ title, content, image, status, userid }: { title: string, content: string, image: string, status: string, userid: string }) {
 		try {
 
 			return await this.databases.createDocument(
@@ -123,18 +123,13 @@ export class Service {
 
 	async uploadFile(file: File) {
 		try {
-			await this.bucket.createFile(
+			return await this.bucket.createFile(
 				config.appwriteProjectBucketID,
 				ID.unique(),
 				file
 			)
-			return true
-
 		} catch (error) {
 			console.error(error)
-			return false
-
-
 		}
 	}
 

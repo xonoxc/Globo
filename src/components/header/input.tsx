@@ -1,15 +1,18 @@
+import { forwardRef, InputHTMLAttributes } from 'react'
+import { useId } from "react"
 
-import React, { useId } from 'react'
-
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	type?: string
-	className: string
+	className?: string
+	placeholder?: string
 }
 
-const Input = React.forwardRef<HTMLDivElement, InputProps>(const Input = ({
+
+const Input = forwardRef<HTMLInputElement, InputProps>(({
 	label,
 	type = "text",
+	placeholder = "",
 	className = "",
 	...props
 }, ref) => {
@@ -18,7 +21,9 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(const Input = ({
 	return (
 		<div className="w-full">
 			{label && <label htmlFor={id} className='inline-block mb-1'>{label}</label>}
-			<input type={type}
+			<input
+				type={type}
+				placeholder={placeholder}
 				className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
 				{...props}
 				ref={ref}
@@ -26,7 +31,6 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(const Input = ({
 			/>
 		</div>
 	)
-
 })
 
-export default Input
+export default Input;
