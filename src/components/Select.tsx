@@ -12,17 +12,19 @@ const Select: React.ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
 ) => {
   const id = useId()
   return (
-    <div className="w-full">
+    <div className="w-full text-black">
       {label && <label htmlFor={id}>{label}</label>}
       <select
         {...props}
         name=""
         id={id}
-        className={`${className} px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full`}
+        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
         ref={ref}
       >
         {options?.map((current, index) => (
-          <option value={current} key={index} />
+          <option value={current} key={index}>
+            {current}
+          </option>
         ))}
       </select>
     </div>

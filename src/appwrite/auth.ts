@@ -9,7 +9,6 @@ export class AuthService {
     this.client
       .setEndpoint(config.appwriteUrl)
       .setProject(config.appwriteProjectID)
-    console.log("Projct:", config.appwriteProjectBucketID)
 
     this.account = new Account(this.client)
   }

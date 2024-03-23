@@ -2,6 +2,7 @@ import React from "react"
 import { Editor } from "@tinymce/tinymce-react"
 import { Control, Controller, UseFormRegister } from "react-hook-form"
 import { PostProps } from "../types"
+import config from "../config/config"
 
 interface RTEProps {
   name?: "userid" | "content" | "status" | "title"
@@ -26,6 +27,7 @@ const RTE: React.FC<RTEProps> = ({
         control={control}
         render={({ field: { onChange } }) => (
           <Editor
+            apiKey={config.tinyMiceEditorApiKey}
             initialValue={defaultValue}
             init={{
               initialValue: defaultValue,
