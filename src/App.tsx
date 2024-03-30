@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
   return (
     <>
       {!loading ? (
-        <div className="flex flex-wrap min-h-screen content-between bg-gray-500">
+        <div className="flex flex-wrap min-h-screen content-between bg-white-200">
           <div className="w-full block">
             <Header />
             <main>
