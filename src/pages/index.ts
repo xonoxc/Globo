@@ -6,5 +6,16 @@ import Login from "./Login"
 import EditPost from "./EditPost"
 import AllPosts from "./AllPosts"
 import Pricing from "./pricing"
+import Profile from "./Profile"
 
-export { Pricing, AllPosts, AddPost, Home, Signup, Login, EditPost, Post }
+export {
+     Pricing,
+     Profile,
+     AllPosts,
+     AddPost,
+     Home,
+     Signup,
+     Login,
+     EditPost,
+     Post,
+}

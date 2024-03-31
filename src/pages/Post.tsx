@@ -24,14 +24,8 @@ export default function Post(): JSX.Element {
           }
      })
 
-     console.log(userData.$id)
-
-     console.log("PostData userid", post?.userid)
-
      const isAuthor: boolean =
           post && userData ? post.userid === userData.$id : false
-
-     console.log("isAuthor", isAuthor)
 
      useEffect(() => {
           if (postId) {

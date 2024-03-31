@@ -1,7 +1,8 @@
 export interface userData {
-  $id: string
-  name: string
-  email: string
-  password: string
-  isVerified: boolean
+     $id: string
+     name: string
+     email: string
+     password: string
+     avatar?: string
+     isVerified: boolean
 }

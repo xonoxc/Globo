@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { RootState } from "../store/store"
+import { MetroSpinner } from "react-spinners-kit"
 
 export default function AuthLayout({
      children,
@@ -27,7 +28,9 @@ export default function AuthLayout({
      }, [authStatus, navigate, authentication])
 
      return loader ? (
-          <div className="loader w-full flex items-center justify-center"></div>
+          <div className="loader w-full flex items-center justify-center">
+               <MetroSpinner />
+          </div>
      ) : (
           <>{children}</>
      )
