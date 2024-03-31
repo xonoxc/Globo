@@ -78,7 +78,9 @@ const Login: React.FC = () => {
               type="password"
               {...register("password", { required: true })}
             />
-            <Button type="submit">Sign in</Button>
+            <Button type="submit" bgColor="black" textColor="white">
+              Sign in
+            </Button>
           </div>
         </form>
       </div>

@@ -4,8 +4,18 @@ const getNavItems = () => {
   const authStatus = store.getState().auth.status
   return [
     {
+      name: "Create",
+      dest: "/add-post",
+      active: authStatus,
+    },
+    {
       name: "Home",
       dest: "/",
+      active: true,
+    },
+    {
+      name: "pricing",
+      dest: "/pricing",
       active: true,
     },
     {
@@ -19,13 +29,8 @@ const getNavItems = () => {
       active: !authStatus,
     },
     {
-      name: "All Posts",
+      name: "Posts",
       dest: "/all-posts",
-      active: authStatus,
-    },
-    {
-      name: "Add Post",
-      dest: "/add-post",
       active: authStatus,
     },
   ]

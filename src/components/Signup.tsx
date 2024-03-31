@@ -25,6 +25,7 @@ const Signup: React.FC = () => {
       const userData = await authService.createAccount(data)
       if (userData) {
         const currentUser = await authService.getCurrentUser()
+        console.log(currentUser)
         dispatch(login(currentUser))
         navigate("/")
       }
@@ -56,7 +57,7 @@ const Signup: React.FC = () => {
           Already have an account ?&nbsp;
           <Link
             to={"/login"}
-            className="font-medium text-white trasition-all duration-200 hover:underline"
+            className="font-medium text-black trasition-all duration-200 hover:underline"
           >
             Login
           </Link>
@@ -88,7 +89,9 @@ const Signup: React.FC = () => {
               type="password"
               {...register("password", { required: true })}
             />
-            <Button type="submit">Create account</Button>
+            <Button type="submit" textColor="white">
+              Create account
+            </Button>
           </div>
         </form>
       </div>
