@@ -6,14 +6,29 @@ interface PostState {
      postData: PostProps | null
 }
 
-const initialState = {
-     status: false,
-     postData: null,
+const getInitialState = (): PostState => {
+     try {
+          const localStoragePosts = localStorage.getItem("cachedPosts")
+          if (localStoragePosts) {
+               const parsedPosts = JSON.parse(localStoragePosts)
+               return {
+                    status: true,
+                    postData: parsedPosts,
+               }
+          }
+     } catch (error) {
+          console.error("Error parsing cached posts from localStorage", error)
+     }
+
+     return {
+          status: false,
+          postData: null,
+     }
 }
 
 const postSlice = createSlice({
      name: "posts",
-     initialState,
+     initialState: getInitialState(),
      reducers: {
           saveCache: (state: PostState, action) => {
                state.status = true
@@ -30,13 +45,6 @@ const postSlice = createSlice({
           },
      },
 })
-
-const localStoragePosts = localStorage.getItem("cachedPosts")
-if (localStoragePosts) {
-     const parsedLocalStoragePosts: PostState = JSON.parse(localStoragePosts)
-     initialState.status = parsedLocalStoragePosts.status
-     initialState.postData = parsedLocalStoragePosts.postData
-}
 
 export const { saveCache, removeCache } = postSlice.actions
 

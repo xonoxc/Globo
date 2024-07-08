@@ -1,49 +1,104 @@
-import React from "react"
-import { Container, Logo, LogoutBtn } from "./../index"
-import { Link, useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import { Avatar, Container, Logo, LogoutBtn } from "./../index"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { getNavItems } from "./data/nav-items"
-import { SquarePen } from "lucide-react"
+import { SquarePen, Menu, X } from "lucide-react"
 
 const Header: React.FC = () => {
-  const authStatus = useSelector((state: RootState) => state.auth.status)
-  const navigate = useNavigate()
-  const NavItems = getNavItems()
+     const [menuOpen, setMenuOpen] = useState(false)
+     const auth = useSelector((state: RootState) => state.auth)
+     const location = useLocation()
+     const navigate = useNavigate()
+     const NavItems = getNavItems()
 
-  return (
-    <header className="py-3 shadow bg-white">
-      <Container>
-        <nav className="flex">
-          <div className="mr-4">
-            <Link to={"/"}>
-              <Logo width={"100%"} />
-            </Link>
-          </div>
-          <ul className="flex ml-auto">
-            {NavItems.map((item, index) =>
-              item.active ? (
-                <li key={index}>
-                  <button
-                    onClick={() => navigate(item.dest)}
-                    className={`${item.name === "Login" || item.name === "Signup" ? "bg-black text-white mx-1" : "bg-gray-100"} items-center  justify-center flex mx-1 px-6 py-2 duration-200 hover:bg-blue-100 rounded-full`}
-                  >
-                    {item.name}{" "}
-                    {item.name === "Create" && <SquarePen height={16} />}
-                  </button>
-                </li>
-              ) : null
-            )}
-            {authStatus && (
-              <li>
-                <LogoutBtn />
-              </li>
-            )}
-          </ul>
-        </nav>
-      </Container>
-    </header>
-  )
+     const toggleMenu = () => {
+          setMenuOpen(!menuOpen)
+     }
+
+     const closeMenu = () => {
+          setMenuOpen(false)
+     }
+
+     React.useEffect((): void => {
+          setMenuOpen(false)
+     }, [navigate])
+
+     return (
+          <header className="py-3 shadow bg-white">
+               <Container>
+                    <nav className="flex items-center justify-between relative z-10">
+                         <div className="mr-4">
+                              <Link to={"/"}>
+                                   <Logo width={"100%"} />
+                              </Link>
+                         </div>
+                         <div className="lg:hidden">
+                              <button
+                                   onClick={toggleMenu}
+                                   className="focus:outline-none"
+                                   aria-label="Toggle menu"
+                              >
+                                   {menuOpen ? (
+                                        <X size={24} />
+                                   ) : (
+                                        <Menu size={24} />
+                                   )}
+                              </button>
+                         </div>
+                         <ul
+                              className={`${
+                                   menuOpen ? "block" : "hidden"
+                              } lg:flex flex-col lg:flex-row items-center lg:ml-auto fixed lg:static inset-x-0 top-0 mt-16 lg:mt-0 bg-white lg:bg-transparent p-4 lg:p-0 shadow-md lg:shadow-none z-10 transition-transform transform lg:translate-y-0 space-y-4 lg:space-y-0 lg:gap-2`}
+                         >
+                              {NavItems.map((item, index) =>
+                                   item.active ? (
+                                        <li
+                                             key={index}
+                                             className="w-full lg:w-auto"
+                                        >
+                                             <button
+                                                  onClick={() => {
+                                                       navigate(item.dest)
+                                                       closeMenu()
+                                                  }}
+                                                  className={`${
+                                                       item.name === "Login" ||
+                                                       item.name === "Signup"
+                                                            ? "bg-black text-white"
+                                                            : "bg-gray-100 text-gray-700"
+                                                  } w-full lg:w-auto items-center justify-center flex px-6 py-2 duration-200 hover:bg-blue-100 rounded-full`}
+                                             >
+                                                  {item.name}{" "}
+                                                  {item.name === "Create" && (
+                                                       <SquarePen height={16} />
+                                                  )}
+                                             </button>
+                                        </li>
+                                   ) : null
+                              )}
+                              {auth.status && (
+                                   <div className="w-full lg:w-auto flex gap-2">
+                                        {location.pathname !==
+                                             "/u/profile/c" && (
+                                             <Link to={`/u/profile/c`}>
+                                                  <Avatar
+                                                       imageUrl={
+                                                            auth.userData
+                                                                 ?.avatar
+                                                       }
+                                                  />
+                                             </Link>
+                                        )}
+                                        <LogoutBtn />
+                                   </div>
+                              )}
+                         </ul>
+                    </nav>
+               </Container>
+          </header>
+     )
 }
 
 export default Header

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import appwriteSerivce from "../appwrite/conf"
+import { postService } from "../services/conf"
 import { PostProps } from "../types"
 import { Container, PostCard } from "../components"
 import { AppDispatch, RootState } from "../store/store"
@@ -17,16 +17,14 @@ export default function Home(): JSX.Element {
 
      const authStatus = useSelector((state: RootState) => state.auth.status)
 
-     const fetchPosts = async () => {
+     const fetchPosts = async (): Promise<void> => {
           try {
                setLoading(true)
-               console.log("fetch runs")
-               const response = await appwriteSerivce.getAllPosts([])
-               if (response && response.documents) {
-                    const parsedPosts =
-                         response.documents as unknown as PostProps[]
-                    setPosts(parsedPosts)
-                    dispatch(saveCache(parsedPosts))
+               const response = await postService.getFeed()
+
+               if (response) {
+                    setPosts(response as PostProps[])
+                    dispatch(saveCache(response))
                }
           } catch (error) {
                console.error("Error while fetching Posts", error)
@@ -95,14 +93,18 @@ export default function Home(): JSX.Element {
      }
 
      return (
-          <div className="w-full py-8">
+          <div className="w-full py-8 ">
                <Container>
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap w-full">
                          {posts.map((post) => (
-                              <div key={post.$id} className="p-2 w-1/4">
+                              <div
+                                   key={post.id}
+                                   className="p-2 w-full  sm:w-1/4 "
+                              >
                                    <PostCard
-                                        {...post}
-                                        image={post.image as string}
+                                        title={post.title}
+                                        id={post.id as number}
+                                        imageUrl={post.image as string}
                                    ></PostCard>
                               </div>
                          ))}

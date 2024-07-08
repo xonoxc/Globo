@@ -1,14 +1,15 @@
 export interface PostProps {
-  $id: string
-  title: string
-  userid: string
-  content: string
-  image: string | FileList
-  status: string
+     id?: number
+     title: string
+     userId: string
+     content: string
+     image: string | FileList
+     slug?: string
+     status: string
 }
 
 export interface feedPosts {
-  title: string
-  content: string
-  image: string
+     title: string
+     content: string
+     image: string
 }

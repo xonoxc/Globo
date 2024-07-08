@@ -6,11 +6,11 @@ import Login from "./Login"
 import EditPost from "./EditPost"
 import AllPosts from "./AllPosts"
 import Pricing from "./pricing"
-import Profile from "./Profile"
+import ProfilePage from "./profile.tsx"
 
 export {
      Pricing,
-     Profile,
+     ProfilePage,
      AllPosts,
      AddPost,
      Home,

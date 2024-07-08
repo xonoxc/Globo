@@ -1,31 +1,31 @@
 import { useState, useEffect } from "react"
 import { PostCard, Container } from "../components"
-import appwriteService from "../appwrite/conf"
+import { postService } from "../services/conf"
 import { PostProps } from "../types"
 import { Text } from "lucide-react"
-import { useParams } from "react-router-dom"
 
 export default function AllPosts(): JSX.Element {
      const [posts, setPosts] = useState<PostProps[] | undefined>([])
 
      useEffect(() => {
-          appwriteService.getAllPosts([]).then((response) => {
-               const transformedPost =
-                    response?.documents as unknown as PostProps[]
-               setPosts(transformedPost)
+          postService.getUserPosts().then((response) => {
+               setPosts(response)
           })
      }, [])
 
      return (
-          <div className="allposts w-full  py-8">
+          <div className="allposts w-full py-8">
                <Container>
-                    <div className="flex  flex-wrap">
+                    <div className="flex flex-col w-full sm:w-auto sm:flex-row  sm:flex-wrap">
                          {posts?.length !== 0 ? (
                               posts?.map((post: PostProps) => (
-                                   <div key={post.$id} className="p-2 w-1/4">
+                                   <div
+                                        key={post.id}
+                                        className="p-2 sm:w-1/4 w-full"
+                                   >
                                         <PostCard
-                                             $id={post.$id}
-                                             image={post.image as string}
+                                             id={post.id as number}
+                                             imageUrl={post.image as string}
                                              title={post.title}
                                         />
                                    </div>

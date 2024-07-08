@@ -1,8 +1,11 @@
 export interface userData {
-     $id: string
+     id: string
      name: string
      email: string
-     password: string
+     password?: string
      avatar?: string
-     isVerified: boolean
+     coverImage?: string
+     isVerified?: boolean
+     accessToken?: string
+     refreshToken?: string
 }

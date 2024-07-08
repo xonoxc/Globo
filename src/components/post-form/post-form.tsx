@@ -1,11 +1,12 @@
 import React, { useCallback } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { postService } from "../../services/conf"
 import { Button, Select, Input, RTE } from ".."
-import appwriteService from "../../appwrite/conf"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store/store"
 import { PostProps, userData } from "../../types"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "../../store/store.ts"
+import { removeCache } from "../../store/postSlice.ts"
 
 interface PostFormProps {
      post?: PostProps
@@ -13,62 +14,61 @@ interface PostFormProps {
 
 const PostForm: React.FC<PostFormProps> = ({ post }) => {
      const navigate = useNavigate()
+     const dispatch = useDispatch<AppDispatch>()
+     const [loading, setLoading] = React.useState<boolean>(false)
+
      const { register, handleSubmit, watch, setValue, control, getValues } =
           useForm<PostProps>({
                defaultValues: {
                     title: post?.title || "",
-                    userid: post?.userid || "",
+                    userId: post?.userId || "",
                     content: post?.content || "",
                     status: post?.status || "active",
                },
           })
 
-     const userDataSelector = (state: RootState) => state.auth.userData
-
-     const userData = useSelector((state: RootState) => {
-          const user = userDataSelector(state)
-          if (user != null) {
-               return user as userData
-          } else {
-               throw new Error("[postFormError] :User data not found!")
-          }
-     })
+     const userData = JSON.parse(
+          localStorage.getItem("userData") as string
+     ) as userData
 
      const submit: SubmitHandler<PostProps> = async (data) => {
-          const dataValues = getValues()
-          console.log(dataValues)
-          if (post) {
-               const file = data.image[0]
-                    ? await appwriteService.uploadFile(data.image[0] as File)
-                    : null
+          setLoading(true)
+          try {
+               if (post) {
+                    const dbPost = await postService.updatePost(
+                         {
+                              title: data.title,
+                              content: data.content,
+                              status: data.status,
+                              userId: userData.id,
+                              image: data.image as FileList,
+                         },
+                         String(post.id)
+                    )
 
-               if (file) {
-                    appwriteService.deleteFile(post.image as string)
-               }
-
-               const dbPost = await appwriteService.updatePost(post.$id, {
-                    ...data,
-                    image: file ? file.$id : undefined,
-               })
-
-               if (dbPost) {
-                    navigate(`/post/${post.$id}`)
-               }
-          } else {
-               const file = data.image[0]
-                    ? await appwriteService.uploadFile(data.image[0] as File)
-                    : null
-
-               if (file) {
-                    const dbPost = await appwriteService.createPost({
-                         ...data,
-                         image: file.$id,
-                         userid: userData.$id,
-                    })
                     if (dbPost) {
-                         navigate(`/post/${dbPost.$id}`)
+                         dispatch(removeCache())
+                         navigate(`/post/${post.id}`)
+                    }
+               } else {
+                    const dbPost = await postService.createPost({
+                         title: data.title,
+                         status: data.status,
+                         content: data.content,
+                         userId: userData.id,
+                         slug: data.slug,
+                         image: data.image,
+                    })
+
+                    if (dbPost) {
+                         dispatch(removeCache())
+                         navigate(`/post/${dbPost.id}`)
                     }
                }
+          } catch (error) {
+               console.error("error creating post:", error)
+          } finally {
+               setLoading(false)
           }
      }
 
@@ -85,7 +85,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
      React.useEffect(() => {
           const subscription = watch((value, { name }) => {
                if (name === "title") {
-                    setValue("userid", slugTransform(value.title!), {
+                    setValue("slug", slugTransform(value.title!), {
                          shouldValidate: true,
                     })
                }
@@ -95,9 +95,20 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
           })
      }, [watch, slugTransform, setValue])
 
+     if (loading) {
+          return (
+               <div className="wrapper flex items-center justify-center">
+                    <h2>loading...</h2>
+               </div>
+          )
+     }
+
      return (
-          <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-               <div className="w-2/3 px-2">
+          <form
+               onSubmit={handleSubmit(submit)}
+               className="flex sm:flex-row sm:flex-wrap flex-col sm:w-auto"
+          >
+               <div className="w-auto sm:w-2/3 px-2">
                     <Input
                          label="Title :"
                          className="mb-4"
@@ -109,10 +120,10 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                          label="Slug:"
                          placeholder="Slug"
                          className="mb-4"
-                         {...register("userid", { required: true })}
+                         {...register("slug", { required: true })}
                          onInput={(e) => {
                               setValue(
-                                   "userid",
+                                   "slug",
                                    slugTransform(e.currentTarget.value),
                                    {
                                         shouldValidate: true,
@@ -128,7 +139,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                          defaultValue={getValues("content")}
                     />
                </div>
-               <div className="w-1/3 px-2">
+               <div className="w-auto sm:w-1/3 px-2">
                     <Input
                          label="Featured Image :"
                          type="file"
@@ -139,9 +150,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                     {post && (
                          <div className="w-full mb-4">
                               <img
-                                   src={appwriteService
-                                        .getFilePreview(post.image as string)
-                                        .toString()}
+                                   src={post.image as string}
                                    alt={post.title}
                                    className="rounded-lg"
                               />

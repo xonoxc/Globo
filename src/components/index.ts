@@ -2,6 +2,7 @@ import Header from "./header/header"
 import AuthLayout from "./AuthenticationLayout"
 import Button from "./Button"
 import Container from "./container/container"
+import Avatar from "../components/Avatar"
 import Footer from "./footer/footer"
 import Logo from "./Logo"
 import LogoutBtn from "./header/LogoutBtn"
@@ -14,18 +15,19 @@ import Login from "./Login"
 import PostForm from "./post-form/post-form"
 
 export {
-  Header,
-  Footer,
-  Container,
-  Logo,
-  LogoutBtn,
-  Select,
-  Button,
-  Input,
-  RTE,
-  Signup,
-  Login,
-  PostForm,
-  PostCard,
-  AuthLayout,
+     Header,
+     Footer,
+     Container,
+     Logo,
+     Avatar,
+     LogoutBtn,
+     Select,
+     Button,
+     Input,
+     RTE,
+     Signup,
+     Login,
+     PostForm,
+     PostCard,
+     AuthLayout,
 }

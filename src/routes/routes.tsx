@@ -1,6 +1,5 @@
 import {
      Home,
-     Profile,
      Login,
      Signup,
      AllPosts,
@@ -8,6 +7,7 @@ import {
      EditPost,
      Post,
      Pricing,
+     ProfilePage,
 } from "../pages"
 import { AuthLayout } from "../components"
 
@@ -41,7 +41,6 @@ export const RouteChildren: RouteChildren[] = [
           path: "/all-posts",
           element: (
                <AuthLayout authentication>
-                    {" "}
                     <AllPosts />
                </AuthLayout>
           ),
@@ -50,7 +49,6 @@ export const RouteChildren: RouteChildren[] = [
           path: "/add-post",
           element: (
                <AuthLayout authentication>
-                    {" "}
                     <AddPost />
                </AuthLayout>
           ),
@@ -59,7 +57,6 @@ export const RouteChildren: RouteChildren[] = [
           path: "/edit-post/:postId",
           element: (
                <AuthLayout authentication>
-                    {" "}
                     <EditPost />
                </AuthLayout>
           ),
@@ -73,7 +70,11 @@ export const RouteChildren: RouteChildren[] = [
           element: <Pricing />,
      },
      {
-          path: "/profile",
-          element: <Profile />,
+          path: "/u/profile/c",
+          element: (
+               <AuthLayout authentication>
+                    <ProfilePage />
+               </AuthLayout>
+          ),
      },
 ]

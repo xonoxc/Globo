@@ -12,12 +12,7 @@ interface RTEProps {
      register?: UseFormRegister<any>
 }
 
-const RTE: React.FC<RTEProps> = ({
-     name,
-     control,
-     label,
-     defaultValue = "",
-}) => {
+const RTE: React.FC<RTEProps> = ({ control, label, defaultValue = "" }) => {
      return (
           <div className="w-full">
                {label && (
@@ -25,7 +20,7 @@ const RTE: React.FC<RTEProps> = ({
                )}
 
                <Controller
-                    name={name || "content"}
+                    name={"content"}
                     control={control}
                     render={({ field: { onChange } }) => (
                          <Editor
