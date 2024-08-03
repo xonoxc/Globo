@@ -48,7 +48,7 @@ class PostService {
           return response.data.data.newPost
      }
 
-     public async getPostById(id: number): Promise<any> {
+     public async getPostById(id: string): Promise<any> {
           const response = await apiClient.get(`${this.serverUrl}/p/${id}`)
 
           return response.data.data.post
@@ -82,7 +82,7 @@ class PostService {
           return response.data.data.data
      }
 
-     public async getPreviewImage(postId: number): Promise<string> {
+     public async getPreviewImage(postId: string): Promise<string> {
           const response = await apiClient.get(`${this.serverUrl}/p/i/prev`, {
                params: {
                     postId,

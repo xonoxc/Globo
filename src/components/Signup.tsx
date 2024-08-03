@@ -8,6 +8,7 @@ import { AppDispatch } from "../store/store"
 import { login } from "../store/authSlice"
 import { ToastContainer, toast } from "react-toastify"
 import { toastConfig } from "../config/toast.config"
+import "react-toastify/dist/ReactToastify.css"
 
 interface SingupProps {
      name: string
@@ -46,6 +47,7 @@ const Signup: React.FC = (): JSX.Element => {
                     newestOnTop={false}
                     closeOnClick
                     rtl={false}
+                    className={"shadow-black shadow-lg"}
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover

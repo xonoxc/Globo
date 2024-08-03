@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { PostProps, userData } from "../types"
-import parse from "html-react-parser"
+import HTMLComponent from "../components/Renderer/HTML.tsx"
 import { useNavigate, Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Skeleton from "react-loading-skeleton"
@@ -35,7 +35,7 @@ export default function Post(): JSX.Element {
 
      useEffect((): void => {
           if (postId) {
-               postService.getPostById(Number(postId)).then((response) => {
+               postService.getPostById(postId).then((response) => {
                     if (response) setPost(response as unknown as PostProps)
                     else navigate("/")
                })
@@ -102,7 +102,7 @@ export default function Post(): JSX.Element {
                          {loadState ? (
                               <Skeleton width={400} />
                          ) : (
-                              parse(post.content)
+                              <HTMLComponent html={post.content} />
                          )}
                     </div>
                </Container>

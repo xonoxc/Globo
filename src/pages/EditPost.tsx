@@ -14,7 +14,7 @@ export default function EditPost(): JSX.Element {
 
      useEffect(() => {
           if (postId) {
-               postService.getPostById(Number(postId)).then((result) => {
+               postService.getPostById(postId).then((result) => {
                     setPost(result)
                })
           } else {
