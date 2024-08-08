@@ -76,10 +76,28 @@ class PostService {
           return response.data.data.updatedPost
      }
 
+     public async getSearchSuggestions(query: string): Promise<any> {
+          const response = await apiClient.get(
+               `${this.serverUrl}/p/suggest/posts?query=${query}`
+          )
+
+          console.log("search suggestion response :", response.data.data)
+
+          return response.data.data
+     }
+
      public async getFeed(): Promise<any> {
           const response = await apiClient.get(`${this.serverUrl}/p/f/refresh`)
 
           return response.data.data.data
+     }
+
+     public async getSearchResults(query: string): Promise<any> {
+          const response = await apiClient.get(
+               `${this.serverUrl}/p/s/post?articleQuery=${query}`
+          )
+
+          return response.data.data
      }
 
      public async getPreviewImage(postId: string): Promise<string> {

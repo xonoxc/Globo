@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { login as authLogin, setRefreshToken } from "../store/authSlice"
@@ -8,6 +8,7 @@ import { authService } from "../services/auth"
 import { useDispatch } from "react-redux"
 import { userData } from "@/types"
 import { AppDispatch } from "../store/store"
+import Spinner from "../components/spinner/Spinner"
 import { ToastContainer } from "react-toastify"
 import { toastConfig } from "../config/toast.config"
 import "react-toastify/dist/ReactToastify.css"
@@ -21,9 +22,11 @@ const Login: React.FC = (): JSX.Element => {
      const navigate = useNavigate()
      const dispatch = useDispatch<AppDispatch>()
      const { register, handleSubmit } = useForm<LoginProps>()
+     const [loading, setLoading] = useState<boolean>(false)
 
      const login = async (data: LoginProps): Promise<void> => {
           try {
+               setLoading(true)
                const session = await authService.login(
                     data.email,
                     data.password
@@ -48,7 +51,13 @@ const Login: React.FC = (): JSX.Element => {
           } catch (error: any) {
                console.log(error)
                toast.error(error.message, toastConfig)
+          } finally {
+               setLoading(false)
           }
+     }
+
+     if (loading) {
+          return <Spinner />
      }
 
      return (

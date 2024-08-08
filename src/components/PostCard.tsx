@@ -2,6 +2,7 @@ import React from "react"
 import Skeleton from "react-loading-skeleton"
 import { Link } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
+import defaultPostImage from "../../public/default_image.png"
 import { useImageLoad } from "../hooks/useImage"
 
 interface PostCardProps {
@@ -27,7 +28,11 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, imageUrl }) => {
                               />
                          ) : (
                               <img
-                                   src={imageUrl}
+                                   src={
+                                        imageUrl !== ""
+                                             ? imageUrl
+                                             : defaultPostImage
+                                   }
                                    alt={title}
                                    className="w-full rounded-lg"
                               />

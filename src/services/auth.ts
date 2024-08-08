@@ -1,7 +1,7 @@
 import axios from "axios"
 import env from "../config/config"
 import { apiClient } from "../config/axios.config"
-import { ApiResponse } from "@/types/apiResponse"
+import { ApiResponse, IUserProfile } from "@/types/apiResponse"
 import { userData } from "@/types"
 
 class AuthService {
@@ -35,7 +35,7 @@ class AuthService {
                }
           )
 
-          return response.data.createdUser as userData
+          return response.data.data?.createdUser
      }
 
      public async login(email: string, password: string): Promise<ApiResponse> {
@@ -62,6 +62,14 @@ class AuthService {
           )
 
           return response.data.data?.user as userData
+     }
+
+     public async getUserProfile(userId: string): Promise<IUserProfile> {
+          const response = await apiClient.get(
+               `${this.serverURL}/usr/p/${userId}`
+          )
+
+          return response.data.data.profile as IUserProfile
      }
 
      public async logOut(): Promise<ApiResponse> {

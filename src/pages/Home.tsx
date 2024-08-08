@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, Suspense } from "react"
 import { postService } from "../services/conf"
 import { PostProps } from "../types"
 import { Container, PostCard } from "../components"
@@ -8,6 +8,8 @@ import { Button } from "../components"
 import { MetroSpinner } from "react-spinners-kit"
 import { useDispatch, useSelector } from "react-redux"
 import { saveCache } from "../store/postSlice"
+
+const Search = React.lazy(() => import("../components/Search"))
 
 export default function Home(): JSX.Element {
      const dispatch = useDispatch<AppDispatch>()
@@ -95,6 +97,13 @@ export default function Home(): JSX.Element {
      return (
           <div className="w-full py-8 ">
                <Container>
+                    <div className=" flex items-center justify-center w-full ">
+                         <div className="relative bg-white rounded-md shadow-md p-4 w-full">
+                              <Suspense fallback={<div>Loading...</div>}>
+                                   <Search />
+                              </Suspense>
+                         </div>
+                    </div>
                     <div className="flex flex-wrap w-full">
                          {posts.map((post) => (
                               <div

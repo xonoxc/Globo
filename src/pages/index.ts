@@ -2,6 +2,7 @@ import AddPost from "./AddPost"
 import Home from "./Home"
 import Post from "./Post"
 import Signup from "./Signup"
+import SearchResults from "./SearchResults"
 import Login from "./Login"
 import EditPost from "./EditPost"
 import AllPosts from "./AllPosts"
@@ -18,4 +19,5 @@ export {
      Login,
      EditPost,
      Post,
+     SearchResults,
 }

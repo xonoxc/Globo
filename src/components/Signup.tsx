@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { authService } from "../services/auth"
 import { useNavigate, Link } from "react-router-dom"
 import { Button, Input, Logo } from "."
@@ -9,6 +9,7 @@ import { login } from "../store/authSlice"
 import { ToastContainer, toast } from "react-toastify"
 import { toastConfig } from "../config/toast.config"
 import "react-toastify/dist/ReactToastify.css"
+import Spinner from "../components/spinner/Spinner"
 
 interface SingupProps {
      name: string
@@ -20,14 +21,18 @@ const Signup: React.FC = (): JSX.Element => {
      const navigate = useNavigate()
      const dispatch = useDispatch<AppDispatch>()
      const { handleSubmit, register } = useForm<SingupProps>()
+     const [loading, setLoading] = useState<boolean>(false)
 
      const create = async (data: SingupProps): Promise<void> => {
           try {
+               setLoading(true)
                const userData = await authService.createAccount(
                     data.name,
                     data.email,
                     data.password
                )
+
+               console.log("signup userData", userData)
                if (userData) {
                     toast.success("Account created successfully!", toastConfig)
                     dispatch(login({ user: userData }))
@@ -35,7 +40,13 @@ const Signup: React.FC = (): JSX.Element => {
                }
           } catch (error: any) {
                toast.error(error.message, toastConfig)
+          } finally {
+               setLoading(false)
           }
+     }
+
+     if (loading) {
+          return <Spinner />
      }
 
      return (

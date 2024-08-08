@@ -5,6 +5,7 @@ import {
      AllPosts,
      AddPost,
      EditPost,
+     SearchResults,
      Post,
      Pricing,
      ProfilePage,
@@ -70,7 +71,15 @@ export const RouteChildren: RouteChildren[] = [
           element: <Pricing />,
      },
      {
-          path: "/u/profile/c",
+          path: "/results/search",
+          element: (
+               <AuthLayout authentication>
+                    <SearchResults />
+               </AuthLayout>
+          ),
+     },
+     {
+          path: "/u/profile/:userId",
           element: (
                <AuthLayout authentication>
                     <ProfilePage />

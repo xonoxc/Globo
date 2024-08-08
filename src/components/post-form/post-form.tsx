@@ -1,7 +1,7 @@
-import React, { useCallback } from "react"
+import React, { Suspense, useCallback } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { postService } from "../../services/conf"
-import { Button, Select, Input, RTE } from ".."
+import { Button, Select, Input } from ".."
 import { useNavigate } from "react-router-dom"
 import { PostProps, userData } from "../../types"
 import { useDispatch } from "react-redux"
@@ -11,6 +11,8 @@ import { removeCache } from "../../store/postSlice.ts"
 interface PostFormProps {
      post?: PostProps
 }
+
+const RTE = React.lazy(() => import("../RTE.tsx"))
 
 const PostForm: React.FC<PostFormProps> = ({ post }) => {
      const navigate = useNavigate()
@@ -24,6 +26,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                     userId: post?.userId || "",
                     content: post?.content || "",
                     status: post?.status || "active",
+                    slug: post?.slug || "",
                },
           })
 
@@ -132,12 +135,14 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                          }}
                     />
 
-                    <RTE
-                         label="content:"
-                         name="content"
-                         control={control}
-                         defaultValue={getValues("content")}
-                    />
+                    <Suspense fallback={<h2>loadig editor ....</h2>}>
+                         <RTE
+                              label="content:"
+                              name="content"
+                              control={control}
+                              defaultValue={getValues("content")}
+                         />
+                    </Suspense>
                </div>
                <div className="w-auto sm:w-1/3 px-2">
                     <Input
