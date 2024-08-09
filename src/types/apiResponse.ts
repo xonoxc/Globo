@@ -29,13 +29,19 @@ export interface IUserProfile {
      name: string
      email: string
      avatar: string
+     coverImage: string
      isVerified: boolean
      createdAt: string
-     updatedAt: string
+     updatedAt?: string
+
      preferences: {
           proUser: boolean
           articleCount: number
           bio: string
      }
-     article: string[]
+     articles: {
+          id: string
+          title: string
+          createdAt: string
+     }[]
 }

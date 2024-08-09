@@ -9,6 +9,7 @@ const ProfileComponent = lazy(() => import("../components/Profile/profile.tsx"))
 
 export default function ProfilePage(): JSX.Element {
      const [profile, setProfile] = useState<IUserProfile | null>(null)
+     const [loading, setLoading] = useState<boolean>(false)
 
      const { userId } = useParams<{ userId: string }>()
 
@@ -19,12 +20,20 @@ export default function ProfilePage(): JSX.Element {
      const isAuthor = userId === currentUserId
 
      useEffect((): void => {
-          authService
-               .getUserProfile(userId as string)
-               .then((response): void => {
+          ;(async () => {
+               try {
+                    setLoading(true)
+                    const response = await authService.getUserProfile(
+                         userId as string
+                    )
                     if (response) setProfile(response)
-               })
-               .catch((exception) => console.error(exception))
+               } catch (error) {
+                    console.error("error while feching profile:", error)
+                    setProfile(null)
+               } finally {
+                    setLoading(false)
+               }
+          })()
      }, [userId])
 
      console.log("profile in parent profile:", profile)
@@ -33,8 +42,9 @@ export default function ProfilePage(): JSX.Element {
           <div className="py-8">
                <Suspense fallback={<h2>loading...</h2>}>
                     <ProfileComponent
-                         profile={profile as IUserProfile}
+                         data={profile as IUserProfile}
                          isAuthor={isAuthor}
+                         loading={loading}
                     />
                </Suspense>
           </div>

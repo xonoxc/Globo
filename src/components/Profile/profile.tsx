@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react"
 import Skeleton from "react-loading-skeleton"
+import { Link } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
 import ProfileFallback from "../../../public/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
 import { Button } from "../../components"
+import getRelativeTime from "../../utils/date"
+import Fallback from "../../pages/Fallback"
+import DefaultCoverImage from "../../../public/cover_image.png"
 
 interface IProfileProps {
      data: IUserProfile
      isAuthor: boolean
+     loading: boolean
 }
 
-export default function ProfilePage({ data, isAuthor }: IProfileProps) {
-     const [loading, setLoading] = useState(true)
-
-     useEffect(() => {
-          setTimeout(() => setLoading(false), 10000)
-     }, [])
+export default function Profile({ data, isAuthor, loading }: IProfileProps) {
+     if (!loading && !data) return <Fallback />
 
      return (
           <div className="flex flex-col gap-8 w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 relative">
@@ -25,9 +25,13 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                          <Skeleton className="w-full h-full object-cover rounded-lg aspect-[1200/400] g" />
                     ) : (
                          <img
-                              src="/placeholder.svg"
+                              src={
+                                   data.coverImage
+                                        ? data.coverImage
+                                        : DefaultCoverImage
+                              }
                               alt="Cover Image"
-                              className="w-full h-full object-cover rounded-lg aspect-[1200/400]"
+                              className="w-full h-1/4 object-cover rounded-lg aspect-[1200/400]"
                          />
                     )}
                </div>
@@ -41,7 +45,11 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                                    <Skeleton className="w-full h-full rounded-full bg-gray-300" />
                               ) : (
                                    <img
-                                        src={ProfileFallback}
+                                        src={
+                                             data.avatar
+                                                  ? data.avatar
+                                                  : ProfileFallback
+                                        }
                                         alt="Profile Avatar"
                                         className="w-full h-full object-cover"
                                    />
@@ -59,10 +67,10 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                               ) : (
                                    <>
                                         <div className="text-2xl font-bold">
-                                             Jared Palmer
+                                             {data.name}
                                         </div>
                                         <div className="text-gray-500">
-                                             jared@example.com
+                                             {data.email}
                                         </div>
                                         <div className="flex items-center gap-2">
                                              <div className="bg-gray-500 text-white px-2 py-1 rounded-md  font-medium">
@@ -74,7 +82,9 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                          </div>
                     </div>
                     <div className="edit-btn">
-                         <Button textColor="white">Edit Profile</Button>
+                         {isAuthor && (
+                              <Button textColor="white">Edit Profile</Button>
+                         )}
                     </div>
                </div>
 
@@ -102,14 +112,17 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                                    <div className="grid gap-2 text-gray-500">
                                         <div className="flex items-center justify-between">
                                              <div>Articles</div>
-                                             <div>42</div>
+                                             <div>
+                                                  {
+                                                       data.preferences
+                                                            .articleCount
+                                                  }
+                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between">
                                              <div>Bio</div>
                                              <div className="text-right">
-                                                  I'm a software engineer and
-                                                  tech enthusiast. I love
-                                                  building cool stuff with code.
+                                                  {data.preferences.bio}
                                              </div>
                                         </div>
                                    </div>
@@ -123,14 +136,12 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                               <>
                                    <Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
                                    <div className="grid sm:grid-cols-2 gap-4">
-                                        {Array(4)
-                                             .fill(0)
-                                             .map((_, idx) => (
-                                                  <Skeleton
-                                                       key={idx}
-                                                       className="w-full h-40 rounded-lg bg-gray-300"
-                                                  />
-                                             ))}
+                                        {data?.articles?.map((_, idx) => (
+                                             <Skeleton
+                                                  key={idx}
+                                                  className="w-full h-40 rounded-lg bg-gray-300"
+                                             />
+                                        ))}
                                    </div>
                               </>
                          ) : (
@@ -141,30 +152,26 @@ export default function ProfilePage({ data, isAuthor }: IProfileProps) {
                                         </div>
                                    </div>
                                    <div className="grid sm:grid-cols-2 gap-4">
-                                        {Array(4)
-                                             .fill(0)
-                                             .map((_, idx) => (
+                                        {data?.articles?.map((article, idx) => (
+                                             <Link to={`/post/${article.id}`}>
                                                   <div
                                                        key={idx}
                                                        className="p-4 border rounded-lg shadow-md"
                                                   >
                                                        <div className="flex flex-col gap-2">
-                                                            <img
-                                                                 src="/placeholder.svg"
-                                                                 alt={`Article ${idx + 1} Cover`}
-                                                                 className="rounded-lg object-cover aspect-video"
-                                                            />
                                                             <div className="text-sm font-medium">
-                                                                 Article Title{" "}
-                                                                 {idx + 1}
+                                                                 {article.title}
                                                             </div>
                                                             <div className="text-xs text-gray-500">
-                                                                 Published on
-                                                                 Date
+                                                                 on :
+                                                                 {getRelativeTime(
+                                                                      article.createdAt
+                                                                 )}
                                                             </div>
                                                        </div>
                                                   </div>
-                                             ))}
+                                             </Link>
+                                        ))}
                                    </div>
                               </>
                          )}
