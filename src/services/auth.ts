@@ -18,7 +18,7 @@ class AuthService {
           profile?: FileList | File,
           coverImage?: File | FileList
      ): Promise<userData> {
-          const response: ApiResponse = await axios.post(
+          const response = await axios.post(
                `${this.serverURL}/usr/auth/signup`,
                {
                     name,
@@ -39,7 +39,7 @@ class AuthService {
      }
 
      public async login(email: string, password: string): Promise<ApiResponse> {
-          const response: ApiResponse = await axios.post(
+          const response = await axios.post(
                `${this.serverURL}/usr/auth/login`,
                {
                     email,
@@ -64,12 +64,12 @@ class AuthService {
           return response.data.data?.user as userData
      }
 
-     public async getUserProfile(userId: string): Promise<IUserProfile> {
+     public async getUserProfile(userId: string): Promise<any> {
           const response = await apiClient.get(
                `${this.serverURL}/usr/p/${userId}`
           )
 
-          return response.data.data.profile as IUserProfile
+          return response.data.data.profile
      }
 
      public async logOut(): Promise<ApiResponse> {

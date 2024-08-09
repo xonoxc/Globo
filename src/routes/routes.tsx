@@ -11,6 +11,7 @@ import {
      ProfilePage,
 } from "../pages"
 import { AuthLayout } from "../components"
+import NotFountPage from "../components/404"
 
 interface RouteChildren {
      path: string
@@ -85,5 +86,9 @@ export const RouteChildren: RouteChildren[] = [
                     <ProfilePage />
                </AuthLayout>
           ),
+     },
+     {
+          path: "*",
+          element: <NotFountPage />,
      },
 ]

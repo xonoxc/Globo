@@ -27,6 +27,8 @@ export default function ProfilePage(): JSX.Element {
                .catch((exception) => console.error(exception))
      }, [userId])
 
+     console.log("profile in parent profile:", profile)
+
      return (
           <div className="py-8">
                <Suspense fallback={<h2>loading...</h2>}>

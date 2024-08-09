@@ -14,7 +14,7 @@ const LogoutBtn: React.FC = () => {
           authService
                .logOut()
                .then((response) => {
-                    if (response.data.success) {
+                    if (response.status === 200) {
                          dispatch(removeCache())
                          dispatch(logout())
                          navigate("/")

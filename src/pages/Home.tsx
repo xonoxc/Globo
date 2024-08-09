@@ -7,6 +7,7 @@ import { Text } from "lucide-react"
 import { Button } from "../components"
 import { MetroSpinner } from "react-spinners-kit"
 import { useDispatch, useSelector } from "react-redux"
+import { Newspaper } from "lucide-react"
 import { saveCache } from "../store/postSlice"
 
 const Search = React.lazy(() => import("../components/Search"))
@@ -52,12 +53,18 @@ export default function Home(): JSX.Element {
 
      if (!authStatus) {
           return (
-               <div className="w-full py-8 mt-4 text-center">
+               <div className="w-full py-8 mt-4 text-center h-1/2">
                     <Container>
                          <div className="flex flex-wrap">
                               <div className="p-2 w-full">
-                                   <h1 className="text-2xl font-bold hover:text-gray-500">
-                                        Login to see feed!
+                                   <h1 className="text-2xl font-bold hover:text-gray-500 flex items-center justify-center flex-col gap-2">
+                                        <Newspaper
+                                             size={200}
+                                             className="text-gray-300"
+                                        />
+                                        <p className="font-bold uppercase">
+                                             Login to see feed!
+                                        </p>
                                    </h1>
                               </div>
                          </div>
@@ -114,6 +121,12 @@ export default function Home(): JSX.Element {
                                         title={post.title}
                                         id={post.id as number}
                                         imageUrl={post.image as string}
+                                        authorName={post.User?.name as string}
+                                        authorAvatar={
+                                             post.User?.avatar as string
+                                        }
+                                        displayAvatar
+                                        createdAt={post.createdAt}
                                    ></PostCard>
                               </div>
                          ))}

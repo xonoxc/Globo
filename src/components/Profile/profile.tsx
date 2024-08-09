@@ -1,171 +1,175 @@
-import { IUserProfile } from "@/types/apiResponse"
-import defaultProfile from "../../../public/def_pfp.jpg"
-import React from "react"
+import { useState, useEffect } from "react"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
+import ProfileFallback from "../../../public/def_pfp.jpg"
+import { IUserProfile } from "../../types/apiResponse"
+import { Button } from "../../components"
 
-interface ProfilePageProps {
-     profile: IUserProfile
+interface IProfileProps {
+     data: IUserProfile
      isAuthor: boolean
 }
 
-const ProfileComponent: React.FC<ProfilePageProps> = ({ profile }) => {
-     console.log(profile)
+export default function ProfilePage({ data, isAuthor }: IProfileProps) {
+     const [loading, setLoading] = useState(true)
+
+     useEffect(() => {
+          setTimeout(() => setLoading(false), 10000)
+     }, [])
+
      return (
-          <main className="profile-page">
-               <section className="relative block h-500-px">
-                    <div
-                         className="absolute top-0 w-full h-full bg-center bg-cover"
-                         style={{
-                              backgroundImage:
-                                   "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80')",
-                         }}
-                    >
-                         <span
-                              id="blackOverlay"
-                              className="w-full h-full absolute opacity-50 bg-black"
-                         ></span>
+          <div className="flex flex-col gap-8 w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 relative">
+               {/* Cover Image */}
+               <div className="absolute inset-0 z-[-1]">
+                    {loading ? (
+                         <Skeleton className="w-full h-full object-cover rounded-lg aspect-[1200/400] g" />
+                    ) : (
+                         <img
+                              src="/placeholder.svg"
+                              alt="Cover Image"
+                              className="w-full h-full object-cover rounded-lg aspect-[1200/400]"
+                         />
+                    )}
+               </div>
+
+               {/* Profile Section */}
+               <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 justify-between">
+                    {/* Avatar */}
+                    <div>
+                         <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden">
+                              {loading ? (
+                                   <Skeleton className="w-full h-full rounded-full bg-gray-300" />
+                              ) : (
+                                   <img
+                                        src={ProfileFallback}
+                                        alt="Profile Avatar"
+                                        className="w-full h-full object-cover"
+                                   />
+                              )}
+                         </div>
+
+                         {/* User Details */}
+                         <div className="flex flex-col items-center md:items-start gap-2">
+                              {loading ? (
+                                   <>
+                                        <Skeleton className="w-36 h-8 rounded-md bg-gray-300" />
+                                        <Skeleton className="w-48 h-6 rounded-md bg-gray-300" />
+                                        <Skeleton className="w-24 h-6 rounded-md bg-gray-300" />
+                                   </>
+                              ) : (
+                                   <>
+                                        <div className="text-2xl font-bold">
+                                             Jared Palmer
+                                        </div>
+                                        <div className="text-gray-500">
+                                             jared@example.com
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                             <div className="bg-gray-500 text-white px-2 py-1 rounded-md  font-medium">
+                                                  Verified
+                                             </div>
+                                        </div>
+                                   </>
+                              )}
+                         </div>
                     </div>
-                    <div className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px">
-                         <svg
-                              className="absolute bottom-0 overflow-hidden"
-                              xmlns="http://www.w3.org/2000/svg"
-                              preserveAspectRatio="none"
-                              version="1.1"
-                              viewBox="0 0 2560 100"
-                              x="0"
-                              y="0"
-                         >
-                              <polygon
-                                   className="text-blueGray-200 fill-current"
-                                   points="2560 0 2560 100 0 100"
-                              ></polygon>
-                         </svg>
+                    <div className="edit-btn">
+                         <Button textColor="white">Edit Profile</Button>
                     </div>
-               </section>
-               <section className="relative py-16 bg-blueGray-200">
-                    <div className="container mx-auto px-4">
-                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                              <div className="px-6">
-                                   <div className="flex flex-wrap justify-center">
-                                        <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                                             <div className="relative">
-                                                  <img
-                                                       alt="..."
-                                                       src={
-                                                            profile.avatar
-                                                                 ? profile.avatar
-                                                                 : defaultProfile
-                                                       }
-                                                       className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+               </div>
+
+               {/* Cards Section */}
+               <div className="grid grid-cols-1 gap-6">
+                    {/* Preferences Card */}
+                    <div className="p-6 border rounded-lg shadow-md">
+                         {loading ? (
+                              <>
+                                   <Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
+                                   <Skeleton className="w-16 h-6 rounded-md bg-gray-300" />
+                                   <Skeleton className="w-full h-4 mt-4 rounded-md bg-gray-300" />
+                                   <Skeleton className="w-full h-4 rounded-md bg-gray-300" />
+                              </>
+                         ) : (
+                              <div className="grid gap-4">
+                                   <div className="flex items-center justify-between">
+                                        <div className="text-lg font-semibold">
+                                             Preferences
+                                        </div>
+                                        <div className="bg-gray-400 text-white px-2 py-1 rounded-md  font-medium">
+                                             Pro User
+                                        </div>
+                                   </div>
+                                   <div className="grid gap-2 text-gray-500">
+                                        <div className="flex items-center justify-between">
+                                             <div>Articles</div>
+                                             <div>42</div>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                             <div>Bio</div>
+                                             <div className="text-right">
+                                                  I'm a software engineer and
+                                                  tech enthusiast. I love
+                                                  building cool stuff with code.
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         )}
+                    </div>
+
+                    {/* Recent Articles Section */}
+                    <div className="grid gap-4">
+                         {loading ? (
+                              <>
+                                   <Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
+                                   <div className="grid sm:grid-cols-2 gap-4">
+                                        {Array(4)
+                                             .fill(0)
+                                             .map((_, idx) => (
+                                                  <Skeleton
+                                                       key={idx}
+                                                       className="w-full h-40 rounded-lg bg-gray-300"
                                                   />
-                                             </div>
+                                             ))}
+                                   </div>
+                              </>
+                         ) : (
+                              <>
+                                   <div className="p-6 border rounded-lg shadow-md">
+                                        <div className="text-lg font-semibold">
+                                             Recent Articles
                                         </div>
-                                        <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                                             <div className="py-6 px-3 mt-32 sm:mt-0">
-                                                  <button
-                                                       className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                                                       type="button"
+                                   </div>
+                                   <div className="grid sm:grid-cols-2 gap-4">
+                                        {Array(4)
+                                             .fill(0)
+                                             .map((_, idx) => (
+                                                  <div
+                                                       key={idx}
+                                                       className="p-4 border rounded-lg shadow-md"
                                                   >
-                                                       Connect
-                                                  </button>
-                                             </div>
-                                        </div>
-                                        <div className="w-full lg:w-4/12 px-4 lg:order-1">
-                                             <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                                                  <div className="mr-4 p-3 text-center">
-                                                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                                            22
-                                                       </span>
-                                                       <span className="text-sm text-blueGray-400">
-                                                            Friends
-                                                       </span>
+                                                       <div className="flex flex-col gap-2">
+                                                            <img
+                                                                 src="/placeholder.svg"
+                                                                 alt={`Article ${idx + 1} Cover`}
+                                                                 className="rounded-lg object-cover aspect-video"
+                                                            />
+                                                            <div className="text-sm font-medium">
+                                                                 Article Title{" "}
+                                                                 {idx + 1}
+                                                            </div>
+                                                            <div className="text-xs text-gray-500">
+                                                                 Published on
+                                                                 Date
+                                                            </div>
+                                                       </div>
                                                   </div>
-                                                  <div className="mr-4 p-3 text-center">
-                                                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                                            10
-                                                       </span>
-                                                       <span className="text-sm text-blueGray-400">
-                                                            Photos
-                                                       </span>
-                                                  </div>
-                                                  <div className="lg:mr-4 p-3 text-center">
-                                                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                                            89
-                                                       </span>
-                                                       <span className="text-sm text-blueGray-400">
-                                                            Comments
-                                                       </span>
-                                                  </div>
-                                             </div>
-                                        </div>
+                                             ))}
                                    </div>
-                                   <div className="text-center mt-12">
-                                        <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                                             {profile.name}
-                                        </h3>
-                                        <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                                             <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                                             Los Angeles, California
-                                        </div>
-                                        <div className="mb-2 text-blueGray-600 mt-10">
-                                             <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                             Solution Manager - Creative Tim
-                                             Officer
-                                        </div>
-                                        <div className="mb-2 text-blueGray-600">
-                                             <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                                             University of Computer Science
-                                        </div>
-                                   </div>
-                                   <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                                        <div className="flex flex-wrap justify-center">
-                                             <div className="w-full lg:w-9/12 px-4">
-                                                  <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                                       {profile.bio}
-                                                  </p>
-                                                  <a
-                                                       href="#pablo"
-                                                       className="font-normal text-pink-500"
-                                                  >
-                                                       Show more
-                                                  </a>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
+                              </>
+                         )}
                     </div>
-                    <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
-                         <div className="container mx-auto px-4">
-                              <div className="flex flex-wrap items-center md:justify-between justify-center">
-                                   <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                                        <div className="text-sm text-blueGray-500 font-semibold py-1">
-                                             Made with{" "}
-                                             <a
-                                                  href="https://www.creative-tim.com/product/notus-js"
-                                                  className="text-blueGray-500 hover:text-gray-800"
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                             >
-                                                  Notus JS
-                                             </a>{" "}
-                                             by{" "}
-                                             <a
-                                                  href="https://www.creative-tim.com"
-                                                  className="text-blueGray-500 hover:text-blueGray-800"
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                             >
-                                                  Creative Tim
-                                             </a>
-                                             .
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-                    </footer>
-               </section>
-          </main>
+               </div>
+          </div>
      )
 }
-
-export default ProfileComponent

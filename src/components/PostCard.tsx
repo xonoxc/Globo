@@ -4,27 +4,38 @@ import { Link } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
 import defaultPostImage from "../../public/default_image.png"
 import { useImageLoad } from "../hooks/useImage"
+import AuthorStrip from "../components/AuthorStrip"
 
 interface PostCardProps {
      id: number
      title: string
      imageUrl: string
+     authorName?: string
+     authorAvatar?: string
+     createdAt: string
+     displayAvatar: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, title, imageUrl }) => {
+const PostCard: React.FC<PostCardProps> = ({
+     id,
+     title,
+     imageUrl,
+     authorName,
+     authorAvatar,
+     displayAvatar,
+     createdAt,
+}) => {
      const { loadState: isLoading } = useImageLoad(imageUrl)
 
      return (
-          <Link to={`/post/${id}`}>
-               <div className="w-full sm:w-full bg-gray-100 rounded-lg p-4 h-full">
-                    <div className="w-full mb-4">
+          <Link to={`/post/${id}`} className="block">
+               <div className="w-full h-80 sm:w-80 bg-gray-100 rounded-lg p-4 flex flex-col">
+                    <div className="flex-grow mb-4">
                          {isLoading ? (
                               <Skeleton
                                    height={150}
                                    borderRadius={16}
-                                   style={{
-                                        borderRadius: "16px",
-                                   }}
+                                   style={{ borderRadius: "16px" }}
                               />
                          ) : (
                               <img
@@ -34,11 +45,11 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, imageUrl }) => {
                                              : defaultPostImage
                                    }
                                    alt={title}
-                                   className="w-full rounded-lg"
+                                   className="w-full h-40 object-cover rounded-lg"
                               />
                          )}
                     </div>
-                    <h2 className="font-bold text-xl">
+                    <h2 className="font-bold text-lg px-2 mb-2 truncate">
                          {isLoading ? (
                               <Skeleton
                                    height={24}
@@ -49,6 +60,13 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, imageUrl }) => {
                               title
                          )}
                     </h2>
+                    <AuthorStrip
+                         isLoading={isLoading}
+                         displayAvatar={displayAvatar}
+                         name={authorName}
+                         avatar={authorAvatar}
+                         createdAt={createdAt}
+                    />
                </div>
           </Link>
      )

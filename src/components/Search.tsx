@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useRef } from "react"
 import { useDebounce } from "use-debounce"
 import { Input, Button } from "../components"
 import { postService } from "../services/conf"
+import { Search as SearchIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 type Suggestions = { title: string }[]
@@ -46,10 +47,14 @@ const Search: React.FC = () => {
           }
      }
 
+     const handleSuggestionClick = (suggestion: string) => {
+          navigate(`/results/search?posts=${encodeURIComponent(suggestion)}`)
+     }
+
      return (
-          <div className=" flex items-center justify-center w-full px-4">
-               <div className=" bg-white rounded-md  p-4 w-full flex items-center justify-center flex-col">
-                    <div className="flex md:w-1/2 gap-2">
+          <div className=" flex items-center justify-center w-full md:px-4">
+               <div className=" bg-white rounded-md  md:p-4 w-full flex items-center justify-center flex-col">
+                    <div className="flex md:w-1/2 gap-2 w-[90%]">
                          <Input
                               type="text"
                               onChange={(e) => setQuery(e.target.value)}
@@ -60,10 +65,10 @@ const Search: React.FC = () => {
 
                          <Button
                               textColor="white"
-                              className="w-1/3"
+                              className="w-1/3 md:w-[20%] p-2 flex items-center justify-center"
                               onClick={handleClick}
                          >
-                              Search
+                              <SearchIcon className="h-4" />
                          </Button>
                     </div>
                     {loading && (
@@ -74,6 +79,11 @@ const Search: React.FC = () => {
                               {suggestions.map((suggestion, index) => (
                                    <li
                                         key={index}
+                                        onClick={() =>
+                                             handleSuggestionClick(
+                                                  suggestion.title
+                                             )
+                                        }
                                         className="p-2 border-b border-gray-200 last:border-none hover:bg-gray-100"
                                    >
                                         {suggestion.title}

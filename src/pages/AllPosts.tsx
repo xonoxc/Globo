@@ -25,8 +25,10 @@ export default function AllPosts(): JSX.Element {
                                    >
                                         <PostCard
                                              id={post.id as number}
+                                             displayAvatar={false}
                                              imageUrl={post.image as string}
                                              title={post.title}
+                                             createdAt={post.createdAt}
                                         />
                                    </div>
                               ))
