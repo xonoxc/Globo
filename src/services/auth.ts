@@ -1,14 +1,38 @@
 import axios from "axios"
 import env from "../config/config"
 import { apiClient } from "../config/axios.config"
-import { ApiResponse, IUserProfile } from "@/types/apiResponse"
+import { ApiResponse } from "@/types/apiResponse"
 import { userData } from "@/types"
+import { UpdateUserProps } from "@/types/user"
 
 class AuthService {
      private serverURL: string
 
      constructor() {
           this.serverURL = env?.VITE_SERVER_URL as string
+     }
+
+     private formatFormData(payload: any): FormData {
+          const formData = new FormData()
+
+          Object.keys(payload).forEach((key) => {
+               const value = payload[key]
+
+               if (value !== undefined && value !== null) {
+                    if (
+                         typeof value === "object" &&
+                         value instanceof FileList
+                    ) {
+                         Array.from(value).forEach((file) => {
+                              formData.append(key, file)
+                         })
+                    } else {
+                         formData.append(key, value.toString())
+                    }
+               }
+          })
+
+          return formData
      }
 
      public async createAccount(
@@ -54,6 +78,22 @@ class AuthService {
           )
 
           return response
+     }
+
+     public async editUserProfile(props: UpdateUserProps): Promise<any> {
+          const formData = this.formatFormData(props)
+
+          const response = await apiClient.patch(
+               `${this.serverURL}/usr/c`,
+               formData,
+               {
+                    headers: {
+                         "Content-Type": "multipart/for",
+                    },
+               }
+          )
+
+          return response.data.data
      }
 
      public async getCurrentUser(): Promise<userData> {

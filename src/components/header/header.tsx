@@ -21,6 +21,8 @@ const Header: React.FC = () => {
           setMenuOpen(false)
      }, [navigate])
 
+     const isProfilePage = location.pathname.startsWith("/u/profile")
+
      return (
           <div>
                <header className="py-3 shadow bg-white">
@@ -93,17 +95,19 @@ const Header: React.FC = () => {
                                                             }
                                                             to={`/u/profile/${auth.userData?.id}`}
                                                        >
-                                                            <Avatar
-                                                                 imageUrl={
-                                                                      auth
-                                                                           .userData
-                                                                           ?.avatar
-                                                                           ? auth
-                                                                                  .userData
-                                                                                  .avatar
-                                                                           : defaultProfile
-                                                                 }
-                                                            />
+                                                            {!isProfilePage && (
+                                                                 <Avatar
+                                                                      imageUrl={
+                                                                           auth
+                                                                                .userData
+                                                                                ?.avatar
+                                                                                ? auth
+                                                                                       .userData
+                                                                                       .avatar
+                                                                                : defaultProfile
+                                                                      }
+                                                                 />
+                                                            )}
                                                        </Link>
                                                   )}
                                                   <LogoutBtn />

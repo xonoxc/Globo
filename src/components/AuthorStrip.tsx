@@ -1,5 +1,6 @@
 import getRelativeTime from "../utils/date"
 import defaultPfp from "../../public/def_pfp.jpg"
+import { Avatar } from "../components"
 import Skeleton from "react-loading-skeleton"
 
 interface IStripProps {
@@ -26,14 +27,12 @@ const AuthorStrip = (props: IStripProps) => {
                     <div className="author flex flex-row items-center p-2 gap-2">
                          {props.displayAvatar && (
                               <div className="img">
-                                   <img
-                                        src={
+                                   <Avatar
+                                        imageUrl={
                                              props.avatar === ""
                                                   ? defaultPfp
                                                   : props.avatar
                                         }
-                                        alt="author"
-                                        className="w-full rounded-full border-2 border-gray-500 size-8"
                                    />
                               </div>
                          )}

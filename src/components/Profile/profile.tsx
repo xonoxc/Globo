@@ -1,5 +1,5 @@
 import Skeleton from "react-loading-skeleton"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
 import ProfileFallback from "../../../public/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
@@ -15,97 +15,94 @@ interface IProfileProps {
 }
 
 export default function Profile({ data, isAuthor, loading }: IProfileProps) {
+     const navigate = useNavigate()
      if (!loading && !data) return <Fallback />
 
      return (
-          <div className="flex flex-col gap-8 w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 relative">
+          <div className="relative w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
                {/* Cover Image */}
-               <div className="absolute inset-0 z-[-1]">
+               <div className="relative w-full h-[200px] md:h-[250px] mb-8">
                     {loading ? (
-                         <Skeleton className="w-full h-full object-cover rounded-lg aspect-[1200/400] g" />
+                         <Skeleton className="w-full h-full object-cover" />
                     ) : (
                          <img
-                              src={
-                                   data.coverImage
-                                        ? data.coverImage
-                                        : DefaultCoverImage
-                              }
+                              src={data.coverImage || DefaultCoverImage}
                               alt="Cover Image"
-                              className="w-full h-1/4 object-cover rounded-lg aspect-[1200/400]"
+                              className="w-full h-full object-cover"
                          />
                     )}
                </div>
 
-               {/* Profile Section */}
-               <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 justify-between">
+               <div className="relative flex flex-col items-center md:items-start md:flex-row md:gap-6 mb-8">
                     {/* Avatar */}
-                    <div>
-                         <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden">
-                              {loading ? (
-                                   <Skeleton className="w-full h-full rounded-full bg-gray-300" />
-                              ) : (
-                                   <img
-                                        src={
-                                             data.avatar
-                                                  ? data.avatar
-                                                  : ProfileFallback
-                                        }
-                                        alt="Profile Avatar"
-                                        className="w-full h-full object-cover"
-                                   />
-                              )}
-                         </div>
-
-                         {/* User Details */}
-                         <div className="flex flex-col items-center md:items-start gap-2">
-                              {loading ? (
-                                   <>
-                                        <Skeleton className="w-36 h-8 rounded-md bg-gray-300" />
-                                        <Skeleton className="w-48 h-6 rounded-md bg-gray-300" />
-                                        <Skeleton className="w-24 h-6 rounded-md bg-gray-300" />
-                                   </>
-                              ) : (
-                                   <>
-                                        <div className="text-2xl font-bold">
-                                             {data.name}
-                                        </div>
-                                        <div className="text-gray-500">
-                                             {data.email}
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                             <div className="bg-gray-500 text-white px-2 py-1 rounded-md  font-medium">
-                                                  Verified
-                                             </div>
-                                        </div>
-                                   </>
-                              )}
-                         </div>
-                    </div>
-                    <div className="edit-btn">
-                         {isAuthor && (
-                              <Button textColor="white">Edit Profile</Button>
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 md:mb-0">
+                         {loading ? (
+                              <Skeleton className="w-full h-full rounded-full bg-gray-300" />
+                         ) : (
+                              <img
+                                   src={data.avatar || ProfileFallback}
+                                   alt="Profile Avatar"
+                                   className="w-full h-full object-cover"
+                              />
                          )}
                     </div>
+
+                    {/* Profile Section */}
+                    <div className="flex flex-col items-center md:items-start">
+                         {loading ? (
+                              <>
+                                   <Skeleton className="w-36 h-8 rounded-md bg-gray-300 mb-2" />
+                                   <Skeleton className="w-48 h-6 rounded-md bg-gray-300 mb-2" />
+                                   <Skeleton className="w-24 h-6 rounded-md bg-gray-300" />
+                              </>
+                         ) : (
+                              <>
+                                   <div className="text-2xl font-bold mb-2">
+                                        {data.name}
+                                   </div>
+                                   <div className="text-gray-500 mb-2">
+                                        {data.email}
+                                   </div>
+                                   <div className="bg-gray-500 text-white px-2 py-1 rounded-md font-medium">
+                                        Verified
+                                   </div>
+                              </>
+                         )}
+                    </div>
+
+                    {/* Edit Button */}
+                    {isAuthor && (
+                         <div className="mt-4 md:mt-0">
+                              <Button
+                                   onClick={() =>
+                                        navigate(`/u/profile/e/${data.id}`)
+                                   }
+                                   textColor="white"
+                              >
+                                   Edit Profile
+                              </Button>
+                         </div>
+                    )}
                </div>
 
                {/* Cards Section */}
-               <div className="grid grid-cols-1 gap-6">
+               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     {/* Preferences Card */}
                     <div className="p-6 border rounded-lg shadow-md">
                          {loading ? (
                               <>
                                    <Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
-                                   <Skeleton className="w-16 h-6 rounded-md bg-gray-300" />
-                                   <Skeleton className="w-full h-4 mt-4 rounded-md bg-gray-300" />
-                                   <Skeleton className="w-full h-4 rounded-md bg-gray-300" />
+                                   <Skeleton className="w-16 h-6 rounded-md mb-4 bg-gray-300" />
+                                   <Skeleton className="w-full h-4 mt-2 rounded-md bg-gray-300" />
+                                   <Skeleton className="w-full h-4 mt-2 rounded-md bg-gray-300" />
                               </>
                          ) : (
                               <div className="grid gap-4">
-                                   <div className="flex items-center justify-between">
+                                   <div className="flex items-center justify-between mb-4">
                                         <div className="text-lg font-semibold">
                                              Preferences
                                         </div>
-                                        <div className="bg-gray-400 text-white px-2 py-1 rounded-md  font-medium">
+                                        <div className="bg-gray-400 text-white px-2 py-1 rounded-md font-medium">
                                              Pro User
                                         </div>
                                    </div>
@@ -115,14 +112,14 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                                              <div>
                                                   {
                                                        data.preferences
-                                                            .articleCount
+                                                            ?.articleCount
                                                   }
                                              </div>
                                         </div>
                                         <div className="flex items-center justify-between">
                                              <div>Bio</div>
                                              <div className="text-right">
-                                                  {data.preferences.bio}
+                                                  {data.preferences?.bio}
                                              </div>
                                         </div>
                                    </div>
@@ -135,7 +132,7 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                          {loading ? (
                               <>
                                    <Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
-                                   <div className="grid sm:grid-cols-2 gap-4">
+                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {data?.articles?.map((_, idx) => (
                                              <Skeleton
                                                   key={idx}
@@ -146,24 +143,24 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                               </>
                          ) : (
                               <>
-                                   <div className="p-6 border rounded-lg shadow-md">
+                                   <div className="p-6 border rounded-lg shadow-md mb-4">
                                         <div className="text-lg font-semibold">
                                              Recent Articles
                                         </div>
                                    </div>
-                                   <div className="grid sm:grid-cols-2 gap-4">
+                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {data?.articles?.map((article, idx) => (
-                                             <Link to={`/post/${article.id}`}>
-                                                  <div
-                                                       key={idx}
-                                                       className="p-4 border rounded-lg shadow-md"
-                                                  >
+                                             <Link
+                                                  to={`/post/${article.id}`}
+                                                  key={idx}
+                                             >
+                                                  <div className="p-4 border rounded-lg shadow-md">
                                                        <div className="flex flex-col gap-2">
                                                             <div className="text-sm font-medium">
                                                                  {article.title}
                                                             </div>
                                                             <div className="text-xs text-gray-500">
-                                                                 on :
+                                                                 on{" "}
                                                                  {getRelativeTime(
                                                                       article.createdAt
                                                                  )}

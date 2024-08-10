@@ -16,7 +16,10 @@ export default function AllPosts(): JSX.Element {
      return (
           <div className="allposts w-full py-8">
                <Container>
-                    <div className="flex flex-col w-full sm:w-auto sm:flex-row  sm:flex-wrap">
+                    <div className="directive font-bold uppercase border-b-black border-2 border-t-0 border-r-0 border-l-0">
+                         Your Posts:
+                    </div>
+                    <div className="flex flex-col w-full sm:w-auto sm:flex-row  sm:flex-wrap gap-5">
                          {posts?.length !== 0 ? (
                               posts?.map((post: PostProps) => (
                                    <div

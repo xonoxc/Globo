@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios"
-import { userData } from "@/types"
+import { userData } from "../types"
 
 export interface Data {
      user?: userData
@@ -18,6 +18,7 @@ export interface ApiResponse extends AxiosResponse {
      accessToken?: string
      data: {
           data?: {
+               refreshToken?: string
                createdUser: userData
                user?: userData
           }
@@ -32,8 +33,7 @@ export interface IUserProfile {
      coverImage: string
      isVerified: boolean
      createdAt: string
-     updatedAt?: string
-
+     updatedAt: string
      preferences: {
           proUser: boolean
           articleCount: number

@@ -9,6 +9,7 @@ import { MetroSpinner } from "react-spinners-kit"
 import { useDispatch, useSelector } from "react-redux"
 import { Newspaper } from "lucide-react"
 import { saveCache } from "../store/postSlice"
+import { post } from "node_modules/axios/index.d.cts"
 
 const Search = React.lazy(() => import("../components/Search"))
 
@@ -101,17 +102,19 @@ export default function Home(): JSX.Element {
           )
      }
 
+     console.log("posts:", posts)
+
      return (
           <div className="w-full py-8 ">
                <Container>
                     <div className=" flex items-center justify-center w-full ">
-                         <div className="relative bg-white rounded-md shadow-md p-4 w-full">
+                         <div className="relative bg-white rounded-md border-b-gray border-2 border-t-0 border-r-0 border-l-0 p-4 w-full">
                               <Suspense fallback={<div>Loading...</div>}>
                                    <Search />
                               </Suspense>
                          </div>
                     </div>
-                    <div className="flex flex-wrap w-full">
+                    <div className="flex flex-wrap w-full gap-6">
                          {posts.map((post) => (
                               <div
                                    key={post.id}
@@ -126,7 +129,7 @@ export default function Home(): JSX.Element {
                                              post.User?.avatar as string
                                         }
                                         displayAvatar
-                                        createdAt={post.createdAt}
+                                        createdAt={post.createdAt as string}
                                    ></PostCard>
                               </div>
                          ))}

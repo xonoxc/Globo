@@ -8,8 +8,8 @@ import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../store/store.ts"
 import { removeCache } from "../../store/postSlice.ts"
 
-interface PostFormProps {
-     post?: PostProps
+type PostFormProps = {
+     post?: Partial<PostProps>
 }
 
 const RTE = React.lazy(() => import("../RTE.tsx"))
@@ -40,7 +40,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                if (post) {
                     const dbPost = await postService.updatePost(
                          {
-                              title: data.title,
+                              title: data.title as string,
                               content: data.content,
                               status: data.status,
                               userId: userData.id,

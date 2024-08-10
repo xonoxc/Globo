@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react"
+import React, { useState, useCallback } from "react"
 import { useDebounce } from "use-debounce"
 import { Input, Button } from "../components"
 import { postService } from "../services/conf"
@@ -58,9 +58,9 @@ const Search: React.FC = () => {
                          <Input
                               type="text"
                               onChange={(e) => setQuery(e.target.value)}
-                              placeholder="Search"
+                              placeholder="Search....."
                               onKeyDown={handleKeyDown}
-                              className="border-black border-2"
+                              className=" border-2"
                          />
 
                          <Button
@@ -75,7 +75,7 @@ const Search: React.FC = () => {
                          <div className="mt-2 text-blue-500">Loading...</div>
                     )}
                     {suggestions.length > 0 && (
-                         <ul className=" md:w-1/2 mt-2 bg-white  border border-gray-200 rounded-md shadow-md ">
+                         <ul className=" md:w-1/2 mt-2 bg-white  border  rounded-md ">
                               {suggestions.map((suggestion, index) => (
                                    <li
                                         key={index}

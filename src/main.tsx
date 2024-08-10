@@ -6,19 +6,22 @@ import { Provider } from "react-redux"
 import store from "./store/store.ts"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { RouteChildren } from "./routes/routes.tsx"
+import { ProfileContextProvider } from "./hooks/useProfile.tsx"
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: RouteChildren,
-  },
+     {
+          path: "/",
+          element: <App />,
+          children: RouteChildren,
+     },
 ])
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+     <React.StrictMode>
+          <Provider store={store}>
+               <ProfileContextProvider>
+                    <RouterProvider router={router} />
+               </ProfileContextProvider>
+          </Provider>
+     </React.StrictMode>
 )

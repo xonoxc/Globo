@@ -9,3 +9,11 @@ export interface userData {
      accessToken?: string
      refreshToken?: string
 }
+
+export type UpdateUserProps = {
+     name: string
+     email: string
+     profile: File | string
+     coverImage: File | string
+     bio: string
+}

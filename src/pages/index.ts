@@ -8,6 +8,7 @@ import EditPost from "./EditPost"
 import AllPosts from "./AllPosts"
 import Pricing from "./pricing"
 import ProfilePage from "./profile.tsx"
+import ProfileEdit from "./EditProfile.tsx"
 
 export {
      Pricing,
@@ -20,4 +21,5 @@ export {
      EditPost,
      Post,
      SearchResults,
+     ProfileEdit,
 }

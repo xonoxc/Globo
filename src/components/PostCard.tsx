@@ -29,7 +29,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
      return (
           <Link to={`/post/${id}`} className="block">
-               <div className="w-full h-80 sm:w-80 bg-gray-100 rounded-lg p-4 flex flex-col">
+               <div className="w-full h-80 sm:w-80  rounded-xl  p-4 flex flex-col">
                     <div className="flex-grow mb-4">
                          {isLoading ? (
                               <Skeleton

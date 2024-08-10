@@ -12,6 +12,7 @@ import {
 } from "../pages"
 import { AuthLayout } from "../components"
 import NotFountPage from "../components/404"
+import ProfileEdit from "../pages/EditProfile"
 
 interface RouteChildren {
      path: string
@@ -84,6 +85,14 @@ export const RouteChildren: RouteChildren[] = [
           element: (
                <AuthLayout authentication>
                     <ProfilePage />
+               </AuthLayout>
+          ),
+     },
+     {
+          path: "/u/profile/e/:userId",
+          element: (
+               <AuthLayout authentication>
+                    <ProfileEdit />
                </AuthLayout>
           ),
      },

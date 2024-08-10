@@ -32,7 +32,6 @@ const Signup: React.FC = (): JSX.Element => {
                     data.password
                )
 
-               console.log("signup userData", userData)
                if (userData) {
                     toast.success("Account created successfully!", toastConfig)
                     dispatch(login({ user: userData }))

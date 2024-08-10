@@ -10,7 +10,7 @@ export interface PostProps {
           name: string
           avatar: string
      }
-     createdAt: string
+     createdAt?: string
 }
 
 export interface feedPosts {
