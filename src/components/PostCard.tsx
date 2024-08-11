@@ -2,7 +2,7 @@ import React from "react"
 import Skeleton from "react-loading-skeleton"
 import { Link } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
-import defaultPostImage from "../../public/default_image.png"
+import defaultPostImage from "/default_image.png"
 import { useImageLoad } from "../hooks/useImage"
 import AuthorStrip from "../components/AuthorStrip"
 

@@ -1,5 +1,5 @@
 import getRelativeTime from "../utils/date"
-import defaultPfp from "../../public/def_pfp.jpg"
+import defaultPfp from "/def_pfp.jpg"
 import { Avatar } from "../components"
 import Skeleton from "react-loading-skeleton"
 

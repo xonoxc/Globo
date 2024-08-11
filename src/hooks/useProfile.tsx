@@ -88,5 +88,6 @@ export const useProfile = (userId: string) => {
           profile,
           loading,
           setLoading,
+          fetchUserProfile,
      }
 }

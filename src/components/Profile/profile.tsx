@@ -1,12 +1,12 @@
 import Skeleton from "react-loading-skeleton"
 import { Link, useNavigate } from "react-router-dom"
 import "react-loading-skeleton/dist/skeleton.css"
-import ProfileFallback from "../../../public/def_pfp.jpg"
+import ProfileFallback from "/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
 import { Button } from "../../components"
 import getRelativeTime from "../../utils/date"
 import Fallback from "../../pages/Fallback"
-import DefaultCoverImage from "../../../public/cover_image.png"
+import DefaultCoverImage from "/cover_image.png"
 
 interface IProfileProps {
      data: IUserProfile

@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useCallback } from "react"
 import { useForm } from "react-hook-form"
-import DefaultCoverImage from "../../public/cover_image.png"
-import ProfileFallback from "../../public/def_pfp.jpg"
+import DefaultCoverImage from "/cover_image.png"
+import ProfileFallback from "/def_pfp.jpg"
 import { Button } from "../components"
 import { useProfile } from "../hooks/useProfile"
 import Skeleton from "react-loading-skeleton"
@@ -14,7 +14,9 @@ import { authService } from "../services/auth"
 export default function ProfileEdit() {
      const { userId } = useParams<{ userId: string }>()
      const navigate = useNavigate()
-     const { profile, loading, setLoading } = useProfile(userId as string)
+     const { profile, loading, setLoading, fetchUserProfile } = useProfile(
+          userId as string
+     )
      const { register, handleSubmit, setValue, watch } = useForm<
           Partial<UpdateUserProps>
      >({
@@ -49,7 +51,10 @@ export default function ProfileEdit() {
                          coverImage: data.coverImage as File,
                     })
 
-                    if (response) navigate(`/u/profile/${profile?.id}`)
+                    if (Array.isArray(response) && response.length === 2) {
+                         await fetchUserProfile(userId as string)
+                         navigate(`/u/profile/${profile?.id}`)
+                    }
                } catch (error) {
                     console.error(`Error while updating profile:`, error)
                } finally {
