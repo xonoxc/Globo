@@ -52,30 +52,31 @@ const Search: React.FC = () => {
      }
 
      return (
-          <div className=" flex items-center justify-center w-full md:px-4">
-               <div className=" bg-white rounded-md  md:p-4 w-full flex items-center justify-center flex-col">
-                    <div className="flex md:w-1/2 gap-2 w-[90%]">
+          <div className="flex items-center justify-center w-full md:px-4">
+               <div className="bg-white rounded-md md:p-4 w-full flex items-center justify-center flex-col">
+                    <div className="flex w-full md:w-1/2 gap-2">
                          <Input
                               type="text"
                               onChange={(e) => setQuery(e.target.value)}
                               placeholder="Search....."
                               onKeyDown={handleKeyDown}
-                              className=" border-2"
+                              className="flex-grow border-2 p-2"
                          />
-
-                         <Button
-                              textColor="white"
-                              className="w-1/3 md:w-[20%] p-2 flex items-center justify-center"
-                              onClick={handleClick}
-                         >
-                              <SearchIcon className="h-4" />
-                         </Button>
+                         <div className="btn w-[30%] md:w-[20%] flex items-center justify-center ">
+                              <Button
+                                   textColor="white"
+                                   className="w-auto h-ful px-4 py-3 flex items-center justify-center"
+                                   onClick={handleClick}
+                              >
+                                   <SearchIcon className="h-4" />
+                              </Button>
+                         </div>
                     </div>
                     {loading && (
                          <div className="mt-2 text-blue-500">Loading...</div>
                     )}
                     {suggestions.length > 0 && (
-                         <ul className=" md:w-1/2 mt-2 bg-white  border  rounded-md ">
+                         <ul className="md:w-1/2 mt-2 bg-white border rounded-md">
                               {suggestions.map((suggestion, index) => (
                                    <li
                                         key={index}

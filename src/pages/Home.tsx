@@ -9,7 +9,6 @@ import { MetroSpinner } from "react-spinners-kit"
 import { useDispatch, useSelector } from "react-redux"
 import { Newspaper } from "lucide-react"
 import { saveCache } from "../store/postSlice"
-import { post } from "node_modules/axios/index.d.cts"
 
 const Search = React.lazy(() => import("../components/Search"))
 
@@ -114,7 +113,7 @@ export default function Home(): JSX.Element {
                               </Suspense>
                          </div>
                     </div>
-                    <div className="flex flex-wrap w-full gap-6">
+                    <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-4 gap-4">
                          {posts.map((post) => (
                               <div
                                    key={post.id}

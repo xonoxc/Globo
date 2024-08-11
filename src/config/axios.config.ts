@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios"
 import env from "./config"
 import store from "../store/store"
+import { jwtDecode } from "jwt-decode"
 import { logout, setRefreshToken } from "../store/authSlice"
 
 const apiClient = axios.create({
@@ -13,24 +14,34 @@ apiClient.interceptors.response.use(
           const originalRequest = error.config as AxiosRequestConfig
 
           if (error.response && error.response.status === 401) {
-               const refreshToken = store.getState().auth.refreshToken
+               const { refreshToken, refreshTokenExpiry } =
+                    store.getState().auth
 
-               if (refreshToken) {
+               if (
+                    refreshToken &&
+                    refreshTokenExpiry &&
+                    Date.now() < refreshTokenExpiry
+               ) {
                     try {
                          const response = await apiClient.post(
                               `${env?.VITE_SERVER_URL}/auth/refresh-token`
                          )
 
-                         if (response.status == 200) {
+                         if (response.status === 200) {
+                              const newRefreshtoken = response.data.refreshToken
+                              const { exp } = jwtDecode<{ exp: number }>(
+                                   newRefreshtoken
+                              )
+
                               store.dispatch(
                                    setRefreshToken({
-                                        newRefreshtoken:
-                                             response.data.refreshToken,
+                                        newRefreshtoken,
+                                        refreshTokenExpiry: exp * 1000,
                                    })
                               )
-                         }
 
-                         return apiClient(originalRequest)
+                              return apiClient(originalRequest)
+                         }
                     } catch (refreshError) {
                          console.error(
                               "Error while refreshing token:",
