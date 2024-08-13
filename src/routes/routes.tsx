@@ -96,6 +96,7 @@ export const RouteChildren: RouteChildren[] = [
                </AuthLayout>
           ),
      },
+
      {
           path: "*",
           element: <NotFountPage />,

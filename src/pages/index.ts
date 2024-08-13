@@ -9,6 +9,7 @@ import AllPosts from "./AllPosts"
 import Pricing from "./pricing"
 import ProfilePage from "./profile.tsx"
 import ProfileEdit from "./EditProfile.tsx"
+import Subscribe from "./Subscribe.tsx"
 
 export {
      Pricing,
@@ -20,6 +21,7 @@ export {
      Login,
      EditPost,
      Post,
+     Subscribe,
      SearchResults,
      ProfileEdit,
 }

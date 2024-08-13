@@ -19,7 +19,7 @@ export default function AllPosts(): JSX.Element {
                     <div className="directive font-bold uppercase border-b-black border-2 border-t-0 border-r-0 border-l-0">
                          Your Posts:
                     </div>
-                    <div className="flex flex-col w-full sm:w-auto sm:flex-row  sm:flex-wrap gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                          {posts?.length !== 0 ? (
                               posts?.map((post: PostProps) => (
                                    <div

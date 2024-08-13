@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { PostProps, userData } from "../types"
-import HTMLComponent from "../components/Renderer/HTML.tsx"
 import { useNavigate, Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Skeleton from "react-loading-skeleton"
@@ -10,6 +9,8 @@ import { Container, Button } from "../components"
 import { PencilLine, Trash2 } from "lucide-react"
 import { removeCache } from "../store/postSlice"
 import { useImageLoad } from "../hooks/useImage"
+import he from "he"
+import parse from "html-react-parser"
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
@@ -102,7 +103,7 @@ export default function Post(): JSX.Element {
                          {loadState ? (
                               <Skeleton width={400} />
                          ) : (
-                              <HTMLComponent html={post.content} />
+                              parse(he.decode(post.content))
                          )}
                     </div>
                </Container>
