@@ -7,6 +7,7 @@ import store from "./store/store.ts"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { RouteChildren } from "./routes/routes.tsx"
 import { ProfileContextProvider } from "./hooks/useProfile.tsx"
+import { SubscriptionProvider } from "./hooks/useSubscription.tsx"
 
 const router = createBrowserRouter([
      {
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
      <React.StrictMode>
           <Provider store={store}>
                <ProfileContextProvider>
-                    <RouterProvider router={router} />
+                    <SubscriptionProvider>
+                         <RouterProvider router={router} />
+                    </SubscriptionProvider>
                </ProfileContextProvider>
           </Provider>
      </React.StrictMode>

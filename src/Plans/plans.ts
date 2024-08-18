@@ -22,15 +22,4 @@ export const Plans: PlansProps[] = [
           benefits: ["10 posts per month", "basic author badge", "1 user"],
           price: "$10",
      },
-     {
-          name: "Custom plan",
-          description: "Tailor-made plan to suit your specific needs.",
-          benefits: [
-               "custom number of posts",
-               "custom author badge",
-               "custom number of users",
-               "priority support",
-          ],
-          price: "Contact us for pricing",
-     },
 ]

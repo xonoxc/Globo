@@ -29,6 +29,7 @@ const RTE: React.FC<RTEProps> = ({ control, label, defaultValue = "" }) => {
                               init={{
                                    initialValue: defaultValue,
                                    height: 500,
+                                   content_css: "writer",
                                    menubar: true,
                                    plugins: [
                                         "image",

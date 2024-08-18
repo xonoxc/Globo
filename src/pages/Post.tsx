@@ -6,14 +6,19 @@ import Skeleton from "react-loading-skeleton"
 import { AppDispatch, RootState } from "../store/store"
 import { postService } from "../services/conf"
 import { Container, Button } from "../components"
-import { PencilLine, Trash2 } from "lucide-react"
+import { useSubscrtiption } from "../hooks/useSubscription"
+import { PencilLine, Trash2, WandSparkles } from "lucide-react"
 import { removeCache } from "../store/postSlice"
 import { useImageLoad } from "../hooks/useImage"
 import he from "he"
-import parse from "html-react-parser"
+import HTMLComponent from "../components/renderer/HTML"
+import Summerize from "../components/Summerize"
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
+     const [summerizing, setSummerizing] = useState<boolean>(false)
+     const [toggleCompletionsection, setToggleCompletionsection] =
+          useState<boolean>(false)
      const { postId } = useParams()
      const dispatch = useDispatch<AppDispatch>()
      const navigate = useNavigate()
@@ -30,6 +35,8 @@ export default function Post(): JSX.Element {
                throw new Error("[postFormError] :User data not found!")
           }
      })
+
+     const { status: subscriptionStatus } = useSubscrtiption(userData.id)
 
      const isAuthor: boolean =
           post && userData ? post.userId === userData.id : false
@@ -52,6 +59,11 @@ export default function Post(): JSX.Element {
                     }
                })
           }
+     }
+
+     const handleSummerizeClick = () => {
+          setToggleCompletionsection(true)
+          setSummerizing(true)
      }
 
      if (!post) {
@@ -99,11 +111,35 @@ export default function Post(): JSX.Element {
                               )}
                          </h1>
                     </div>
+                    {subscriptionStatus && (
+                         <div className="tools w-full">
+                              <div className="flex px-5 items-center justify-start md:w-[20%]">
+                                   <Button
+                                        className="font-bold flex flex-row gap-2  justify-center"
+                                        textColor="white"
+                                        onClick={handleSummerizeClick}
+                                   >
+                                        Summerize
+                                        <WandSparkles />
+                                   </Button>
+                              </div>
+                         </div>
+                    )}
+                    {toggleCompletionsection && (
+                         <div className="w-full flex items-center px-2">
+                              <Summerize
+                                   content={post.content}
+                                   trigger={summerizing}
+                                   onComplete={() => setSummerizing(false)}
+                              />
+                         </div>
+                    )}
+
                     <div className="browser-css">
                          {loadState ? (
                               <Skeleton width={400} />
                          ) : (
-                              parse(he.decode(post.content))
+                              <HTMLComponent html={he.decode(post.content)} />
                          )}
                     </div>
                </Container>

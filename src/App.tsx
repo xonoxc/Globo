@@ -18,7 +18,13 @@ export default function App(): JSX.Element {
                     .getCurrentUser()
                     .then((userData) => {
                          if (userData) {
-                              dispatch(login({ user: userData }))
+                              dispatch(
+                                   login({
+                                        user: userData,
+                                        refreshToken:
+                                             userData.refreshToken as string,
+                                   })
+                              )
                          } else {
                               dispatch(logout())
                          }

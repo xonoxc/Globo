@@ -20,7 +20,7 @@ apiClient.interceptors.response.use(
                if (
                     refreshToken &&
                     refreshTokenExpiry &&
-                    Date.now() < refreshTokenExpiry
+                    Date.now() >= refreshTokenExpiry
                ) {
                     try {
                          const response = await apiClient.post(

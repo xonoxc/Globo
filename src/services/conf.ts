@@ -1,6 +1,6 @@
 import env from "../config/config"
 import { apiClient } from "../config/axios.config"
-import { PostProps } from "@/types"
+import { PostProps } from "../types"
 
 class PostService {
      private serverUrl: string
@@ -118,6 +118,25 @@ class PostService {
           }
 
           return false
+     }
+
+     public async createSubscription(
+          amount: number,
+          currency: string,
+          payment_method: string,
+          orderId: string
+     ): Promise<any> {
+          const response = await apiClient.post(
+               `${this.serverUrl}/p/s/subscribe`,
+               {
+                    amount,
+                    currency,
+                    payment_method,
+                    orderId,
+               }
+          )
+
+          return response.data
      }
 }
 

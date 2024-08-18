@@ -54,14 +54,15 @@ const authSlice = createSlice({
                state: AuthState,
                action: PayloadAction<{
                     user: userData
-                    refreshToken: string
-                    refreshTokenExpiry: number
+                    refreshToken?: string
+                    refreshTokenExpiry?: number
                }>
           ): void => {
                state.status = true
                state.userData = action.payload.user
-               state.refreshToken = action.payload.refreshToken
-               state.refreshTokenExpiry = action.payload.refreshTokenExpiry
+               state.refreshToken = action.payload.refreshToken || null
+               state.refreshTokenExpiry =
+                    action.payload.refreshTokenExpiry || null
                localStorage.setItem("userData", JSON.stringify(state.userData))
           },
           logout: (state: AuthState): void => {

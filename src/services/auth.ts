@@ -119,6 +119,14 @@ class AuthService {
 
           return response
      }
+
+     public async getSubscription(userId: string): Promise<boolean> {
+          const responsse = await apiClient.get(
+               `${this.serverURL}/usr/c/sub/${userId}`
+          )
+
+          return responsse.data.data.proUser as boolean
+     }
 }
 
 export const authService = new AuthService()
