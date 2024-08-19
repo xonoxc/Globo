@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { userData } from "../types"
-import { jwtDecode } from "jwt-decode"
+import { getTokenExpiry } from "../utils/token"
 import { PayloadAction } from "@reduxjs/toolkit/react"
 
 interface AuthState {
@@ -17,14 +17,13 @@ const getInitialState = (): AuthState => {
           const refreshToken = parsedUserData?.refreshToken
 
           if (refreshToken) {
-               const { exp } = jwtDecode<{ exp: number }>(refreshToken)
-
-               if (Date.now() < exp * 1000) {
+               const expiry = getTokenExpiry(refreshToken)
+               if (Date.now() < expiry) {
                     return {
                          status: true,
                          userData: parsedUserData,
                          refreshToken: refreshToken,
-                         refreshTokenExpiry: exp * 1000,
+                         refreshTokenExpiry: expiry,
                     }
                }
           }

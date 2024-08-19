@@ -1,5 +1,9 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import loginSchema from "../validation/auth/login"
+import { getTokenExpiry } from "../utils/token"
 import { Link, useNavigate } from "react-router-dom"
 import { login as authLogin, setRefreshToken } from "../store/authSlice"
 import { toast } from "react-toastify"
@@ -13,15 +17,18 @@ import { ToastContainer } from "react-toastify"
 import { toastConfig } from "../config/toast.config"
 import "react-toastify/dist/ReactToastify.css"
 
-interface LoginProps {
-     email: string
-     password: string
-}
+type LoginProps = z.infer<typeof loginSchema>
 
 const Login: React.FC = (): JSX.Element => {
      const navigate = useNavigate()
      const dispatch = useDispatch<AppDispatch>()
-     const { register, handleSubmit } = useForm<LoginProps>()
+     const {
+          register,
+          handleSubmit,
+          formState: { errors },
+     } = useForm<LoginProps>({
+          resolver: zodResolver(loginSchema),
+     })
      const [loading, setLoading] = useState<boolean>(false)
 
      const login = async (data: LoginProps): Promise<void> => {
@@ -33,7 +40,7 @@ const Login: React.FC = (): JSX.Element => {
                )
                if (session.data) {
                     if (session) {
-                         toast.success("login successful!!", toastConfig)
+                         toast.success("Login successful!!", toastConfig)
                          dispatch(
                               authLogin({
                                    user: session.data.data?.user as userData,
@@ -43,6 +50,10 @@ const Login: React.FC = (): JSX.Element => {
                               setRefreshToken({
                                    newRefreshtoken: session.data.data
                                         ?.refreshToken as string,
+                                   refreshTokenExpiry: getTokenExpiry(
+                                        session.data.data
+                                             ?.refreshToken as string
+                                   ),
                               })
                          )
                          navigate("/")
@@ -76,7 +87,7 @@ const Login: React.FC = (): JSX.Element => {
                     theme="light"
                />
                <div
-                    className={`mx-auto w-full max-w-lg  bg-black-500 rounded-xl p-10 border border-black/10`}
+                    className={`mx-auto w-full max-w-lg bg-black-500 rounded-xl p-10 border border-black/10`}
                >
                     <div className="mb-2 flex justify-center">
                          <span className="inline-block w-full max-w-[100px]">
@@ -87,10 +98,10 @@ const Login: React.FC = (): JSX.Element => {
                          Sign in to your account!
                     </h2>
                     <p className="mt-2 text-center text-base text-black/60">
-                         Don&apos;t have an account ?&nbsp;
+                         Don&apos;t have an account?&nbsp;
                          <Link
                               to={"/signup"}
-                              className="font-medium  trasition-all duration-200 hover:underline text-black"
+                              className="font-medium transition-all duration-200 hover:underline text-black"
                          >
                               Signup
                          </Link>
@@ -98,24 +109,32 @@ const Login: React.FC = (): JSX.Element => {
 
                     <form onSubmit={handleSubmit(login)} className="mt-8">
                          <div className="space-y-5">
-                              <Input
-                                   label="Email:"
-                                   placeholder="Enter your email"
-                                   type="email"
-                                   {...register("email", {
-                                        required: true,
-                                        pattern: {
-                                             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                             message: "Please enter a valid email address",
-                                        },
-                                   })}
-                              />
-                              <Input
-                                   label="password"
-                                   placeholder="Enter your password"
-                                   type="password"
-                                   {...register("password", { required: true })}
-                              />
+                              <div>
+                                   <Input
+                                        label="Email:"
+                                        placeholder="Enter your email"
+                                        type="email"
+                                        {...register("email")}
+                                   />
+                                   {errors.email && (
+                                        <p className="text-red-500 text-sm">
+                                             {errors.email.message}
+                                        </p>
+                                   )}
+                              </div>
+                              <div>
+                                   <Input
+                                        label="Password"
+                                        placeholder="Enter your password"
+                                        type="password"
+                                        {...register("password")}
+                                   />
+                                   {errors.password && (
+                                        <p className="text-red-500 text-sm">
+                                             {errors.password.message}
+                                        </p>
+                                   )}
+                              </div>
                               <Button
                                    type="submit"
                                    bgColor="black"

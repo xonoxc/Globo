@@ -40,10 +40,8 @@ const Summerize: React.FC<SummerizeProps> = ({
           }
      }
 
-     console.log(points)
-
      return (
-          <div className="max-w-2xl p-6 font-sans">
+          <div className="max-w-2xl p-6 font-medium">
                <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-black-500 pb-2 mb-4">
                     Summary
                </h2>
