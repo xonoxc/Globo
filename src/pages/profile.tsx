@@ -13,8 +13,6 @@ export default function ProfilePage(): JSX.Element {
 
      const { profile, isAuthor, loading } = useProfile(userId as string)
 
-     console.log("profile status:", profile)
-
      return (
           <div className="py-8">
                <Suspense fallback={<h2>loading...</h2>}>

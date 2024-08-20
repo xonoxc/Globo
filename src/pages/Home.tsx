@@ -100,8 +100,6 @@ export default function Home(): JSX.Element {
           )
      }
 
-     console.log("posts:", posts)
-
      return (
           <div className="w-full py-8 ">
                <Container>

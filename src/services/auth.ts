@@ -2,8 +2,8 @@ import axios from "axios"
 import env from "../config/config"
 import { apiClient } from "../config/axios.config"
 import { ApiResponse } from "@/types/apiResponse"
-import { userData } from "@/types"
-import { UpdateUserProps } from "@/types/user"
+import { userData } from "../types"
+import { UpdateUserProps } from "../types/user"
 
 class AuthService {
      private serverURL: string
@@ -14,27 +14,25 @@ class AuthService {
 
      private formatFormData(payload: any): FormData {
           const formData = new FormData()
-
           Object.keys(payload).forEach((key) => {
                const value = payload[key]
-
                if (value !== undefined && value !== null) {
-                    if (
-                         typeof value === "object" &&
-                         value instanceof FileList
-                    ) {
+                    if (value instanceof File) {
+                         formData.append(key, value)
+                    } else if (value instanceof FileList) {
                          Array.from(value).forEach((file) => {
                               formData.append(key, file)
                          })
+                    } else if (typeof value === "object") {
+                         formData.append(key, JSON.stringify(value))
                     } else {
-                         formData.append(key, value.toString())
+                         formData.append(key, String(value))
                     }
                }
           })
 
           return formData
      }
-
      public async createAccount(
           name: string,
           email: string,
@@ -81,14 +79,17 @@ class AuthService {
      }
 
      public async editUserProfile(props: UpdateUserProps): Promise<any> {
+          console.log(props)
           const formData = this.formatFormData(props)
+
+          console.log(formData)
 
           const response = await apiClient.patch(
                `${this.serverURL}/usr/c`,
                formData,
                {
                     headers: {
-                         "Content-Type": "multipart/for",
+                         "Content-Type": "multipart/form-data",
                     },
                }
           )

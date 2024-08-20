@@ -13,7 +13,7 @@ export interface userData {
 export type UpdateUserProps = {
      name: string
      email: string
-     profile: File | string
-     coverImage: File | string
+     profile: File | undefined
+     coverImage: File | undefined
      bio: string
 }

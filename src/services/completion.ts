@@ -9,11 +9,14 @@ class Completion {
      }
 
      public parsestreamResponse(response: string): string[] {
-          console.log(response)
           const arrayContentMatch = response.match(/\[\s*([^\]]*)\s*\]/)
 
           if (arrayContentMatch) {
-               return JSON.parse(arrayContentMatch[0]) as string[]
+               try {
+                    return JSON.parse(arrayContentMatch[0]) as string[]
+               } catch (error) {
+                    console.error("Error parsing response:", error)
+               }
           }
 
           return []
