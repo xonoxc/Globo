@@ -19,6 +19,7 @@ interface ProfileFormProps {
 const ProfileForm = ({ userId }: ProfileFormProps) => {
      const navigate = useNavigate()
      const dispatch = useDispatch<AppDispatch>()
+     const [error, setError] = useState<string>("")
      const { profile, loading, setLoading, fetchUserProfile } =
           useProfile(userId)
      const { register, handleSubmit, setValue } = useForm<
@@ -42,16 +43,15 @@ const ProfileForm = ({ userId }: ProfileFormProps) => {
      const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
      const [profileFile, setProfileFile] = useState<File | null>(null)
 
-     console.log("coverImagefile", coverImageFile)
-     console.log("profileFile", profileFile)
-
      const handleFileChange = useCallback(
           (e: React.ChangeEvent<HTMLInputElement>) => {
+               setError("")
                const { name, files } = e.target
                const file = files?.[0]
 
                if (file) {
                     const previewUrl = URL.createObjectURL(file)
+
                     if (name === "coverImage") {
                          setCoverImageFile(file)
                          setCoverImagePreview(previewUrl)
@@ -68,6 +68,14 @@ const ProfileForm = ({ userId }: ProfileFormProps) => {
 
      const onSubmit = useCallback(
           async (data: Partial<UpdateUserProps>) => {
+               if (
+                    coverImageFile &&
+                    profileFile &&
+                    coverImageFile.name === profileFile.name
+               ) {
+                    setError("Profile and cover image cannot be the same.")
+                    return
+               }
                try {
                     setLoading(true)
                     const response = await authService.editUserProfile({
@@ -109,6 +117,7 @@ const ProfileForm = ({ userId }: ProfileFormProps) => {
                <h1 className="text-2xl font-bold text-gray-800 mb-6">
                     Edit Profile
                </h1>
+               {error && <span className="text-red-400 py-4">{error}</span>}
 
                <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700">
@@ -209,7 +218,11 @@ const ProfileForm = ({ userId }: ProfileFormProps) => {
                     >
                          Cancel
                     </Button>
-                    <Button textColor="white" type="submit">
+                    <Button
+                         textColor="white"
+                         type="submit"
+                         disabled={error ? true : false}
+                    >
                          Save
                     </Button>
                </div>

@@ -13,6 +13,7 @@ import { useImageLoad } from "../hooks/useImage"
 import he from "he"
 import HTMLComponent from "../components/renderer/HTML"
 import Summerize from "../components/Summerize"
+import AuthorStrip from "../components/AuthorStrip"
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
@@ -69,8 +70,6 @@ export default function Post(): JSX.Element {
      if (!post) {
           return <></>
      }
-
-     console.log(subscriptionStatus)
 
      return (
           <div className="py-8">
