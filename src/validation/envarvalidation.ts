@@ -2,7 +2,7 @@ import { z } from "zod"
 
 const configSchema = z.object({
      VITE_SERVER_URL: z.string().min(1),
-     VITE_TINYMICE_EDITOR_URL: z.string().min(1),
+     VITE_TINYMICE_API_KEY: z.string().min(1),
 })
 
 const validateEnvironmentSchema = (config: Object) => {

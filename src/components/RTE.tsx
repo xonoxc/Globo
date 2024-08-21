@@ -24,7 +24,7 @@ const RTE: React.FC<RTEProps> = ({ control, label, defaultValue = "" }) => {
                     control={control}
                     render={({ field: { onChange } }) => (
                          <Editor
-                              apiKey={env?.VITE_TINYMICE_EDITOR_URL}
+                              apiKey={env?.VITE_TINYMICE_API_KEY}
                               initialValue={defaultValue}
                               init={{
                                    initialValue: defaultValue,
