@@ -1,5 +1,6 @@
 import { Check } from "lucide-react"
 import Button from "../Button"
+import { useNavigate } from "react-router-dom"
 
 interface Plan {
      name: string
@@ -13,6 +14,9 @@ interface PricingCardProps {
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({ plan }) => {
+     const navigate = useNavigate()
+     const basicPlan = plan.price === "$0"
+
      return (
           <div className="w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-between bg-white shadow-md rounded-lg p-6 mx-2 my-4">
                <div className="text-center">
@@ -24,7 +28,11 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan }) => {
                                    key={index}
                                    className="flex items-center gap-2 mb-2"
                               >
-                                   <Check size={12} />
+                                   <Check
+                                        size={12}
+                                        color="green"
+                                        fontWeight={"500"}
+                                   />
                                    {benefit}
                               </ul>
                          ))}
@@ -32,8 +40,12 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan }) => {
                </div>
                <div className="text-center mt-6">
                     <p className="text-gray-600 text-4xl mb-4">{plan.price}</p>
-                    <Button className="bg-black w-full text-white font-bold py-2 px-4 rounded-lg">
-                         Upgrade
+                    <Button
+                         className="bg-black w-full text-white font-bold py-2 px-4 rounded-lg"
+                         disabled={basicPlan}
+                         onClick={() => navigate("/u/sub")}
+                    >
+                         {basicPlan ? "Active" : "Upgrade"}
                     </Button>
                </div>
           </div>

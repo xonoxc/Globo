@@ -7,6 +7,12 @@ interface PlansProps {
 
 export const Plans: PlansProps[] = [
      {
+          name: "Basic plan",
+          description: "Get started with essential features for your blog.",
+          benefits: ["10 posts per month", "basic author badge", "1 user"],
+          price: "$0",
+     },
+     {
           name: "Pro plan",
           description: "Unlock the premium features for your upcoming blogs.",
           benefits: [
@@ -15,11 +21,5 @@ export const Plans: PlansProps[] = [
                "unlimited users",
           ],
           price: "$50",
-     },
-     {
-          name: "Basic plan",
-          description: "Get started with essential features for your blog.",
-          benefits: ["10 posts per month", "basic author badge", "1 user"],
-          price: "$10",
      },
 ]

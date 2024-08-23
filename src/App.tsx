@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "./store/store"
 import { authService } from "./services/auth"
 import { login, logout } from "./store/authSlice"
-import { Footer, Header } from "./components"
+import { Footer } from "./components"
 import { Outlet } from "react-router-dom"
 import { RootState } from "./store/store"
 
@@ -40,7 +40,6 @@ export default function App(): JSX.Element {
           <>
                <div className="flex flex-wrap min-h-screen content-between bg-white-200">
                     <div className="w-full block">
-                         <Header />
                          <main>
                               {loading ? <div>loading....</div> : <Outlet />}
                          </main>

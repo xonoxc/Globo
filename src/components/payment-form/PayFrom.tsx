@@ -1,96 +1,112 @@
 import { useState } from "react"
-import { CreditCard, Apple, PiggyBank } from "lucide-react"
+import { CreditCard } from "lucide-react"
+import { subService } from "../../services/payment"
+import { useNavigate } from "react-router-dom"
 
 const PaymentCard = () => {
-     const [paymentMethod, setPaymentMethod] = useState("card")
+     const navigate = useNavigate()
+     const [error, setError] = useState<string>("")
+     const [formData, setFormData] = useState({
+          name: "",
+          cardNumber: "",
+          month: "1",
+          year: new Date().getFullYear().toString(),
+          cvc: "",
+     })
+
+     const handleInputChange = (
+          e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+     ) => {
+          const { id, value } = e.target
+          setFormData((prev) => ({ ...prev, [id]: value }))
+     }
+
+     const handleSubmit = async (e: React.FormEvent) => {
+          e.preventDefault()
+          setError("")
+          try {
+               const response = await subService.create(
+                    Number(formData.cardNumber)
+               )
+               if (response.status == 200) {
+                    navigate("/")
+               }
+          } catch (error) {
+               console.error("Error creating subscription:", error)
+          }
+     }
 
      return (
-          <div className="card">
-               <div className="card-header">
-                    <h2 className="card-title">Payment Method</h2>
-                    <p className="card-description">
-                         Add a new payment method to your account.
+          <div className="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden border-black">
+               {error && <span className="text-red-400"> {error}</span>}
+               <form onSubmit={handleSubmit} className="p-6 ">
+                    <h2 className="text-xl font-semibold text-gray-900">
+                         Payment Method
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                         Proceed with the subscription
                     </p>
-               </div>
-               <div className="card-content grid gap-6">
-                    <div className="grid grid-cols-3 gap-4">
+
+                    <label
+                         htmlFor="card"
+                         className="cursor-pointer flex flex-col items-center justify-between rounded-md border-2 p-4 border-gray-400 mt-6"
+                    >
+                         <input
+                              type="radio"
+                              value="card"
+                              id="card"
+                              className="sr-only"
+                              checked
+                              readOnly
+                         />
+                         <CreditCard className="mb-3 h-6 w-6 text-gray-700" />
+                         <span className="text-gray-700">Card</span>
+                    </label>
+
+                    <div className="mt-6 grid gap-2">
                          <label
-                              htmlFor="card"
-                              className={`flex flex-col items-center justify-between rounded-md border-2 p-4 ${
-                                   paymentMethod === "card"
-                                        ? "border-primary"
-                                        : "border-muted"
-                              }`}
-                              onClick={() => setPaymentMethod("card")}
+                              htmlFor="name"
+                              className="text-sm text-gray-600"
                          >
-                              <input
-                                   type="radio"
-                                   value="card"
-                                   id="card"
-                                   className="sr-only"
-                                   checked={paymentMethod === "card"}
-                                   onChange={() => setPaymentMethod("card")}
-                              />
-                              <CreditCard className="mb-3 h-6 w-6" />
-                              Card
+                              Name
                          </label>
-                         <label
-                              htmlFor="paypal"
-                              className={`flex flex-col items-center justify-between rounded-md border-2 p-4 ${
-                                   paymentMethod === "paypal"
-                                        ? "border-primary"
-                                        : "border-muted"
-                              }`}
-                              onClick={() => setPaymentMethod("paypal")}
-                         >
-                              <input
-                                   type="radio"
-                                   value="paypal"
-                                   id="paypal"
-                                   className="sr-only"
-                                   checked={paymentMethod === "paypal"}
-                                   onChange={() => setPaymentMethod("paypal")}
-                              />
-                              <PiggyBank className="mb-3 h-6 w-6" />
-                              Paypal
-                         </label>
-                         <label
-                              htmlFor="apple"
-                              className={`flex flex-col items-center justify-between rounded-md border-2 p-4 ${
-                                   paymentMethod === "apple"
-                                        ? "border-primary"
-                                        : "border-muted"
-                              }`}
-                              onClick={() => setPaymentMethod("apple")}
-                         >
-                              <input
-                                   type="radio"
-                                   value="apple"
-                                   id="apple"
-                                   className="sr-only"
-                                   checked={paymentMethod === "apple"}
-                                   onChange={() => setPaymentMethod("apple")}
-                              />
-                              <Apple className="mb-3 h-6 w-6" />
-                              Apple
-                         </label>
-                    </div>
-                    <div className="grid gap-2">
-                         <label htmlFor="name">Name</label>
                          <input
                               id="name"
                               placeholder="First Last"
-                              className="input"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              className="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-3"
                          />
                     </div>
-                    <div className="grid gap-2">
-                         <label htmlFor="number">Card number</label>
-                         <input id="number" placeholder="" className="input" />
+                    <div className="grid gap-2 mt-4">
+                         <label
+                              htmlFor="number"
+                              className="text-sm text-gray-600"
+                         >
+                              Card number
+                         </label>
+                         <input
+                              id="cardNumber"
+                              placeholder="XXXX XXXX XXXX XXXX"
+                              value={formData.cardNumber}
+                              onChange={handleInputChange}
+                              className="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-3"
+                         />
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-3 gap-4 mt-4">
                          <div className="grid gap-2">
-                              <label htmlFor="month">Expires</label>
-                              <select id="month" className="select">
+                              <label
+                                   htmlFor="month"
+                                   className="text-sm text-gray-600"
+                              >
+                                   Expires
+                              </label>
+                              <select
+                                   id="month"
+                                   value={formData.month}
+                                   onChange={handleInputChange}
+                                   className="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-3"
+                              >
                                    <option value="1">January</option>
                                    <option value="2">February</option>
                                    <option value="3">March</option>
@@ -106,8 +122,18 @@ const PaymentCard = () => {
                               </select>
                          </div>
                          <div className="grid gap-2">
-                              <label htmlFor="year">Year</label>
-                              <select id="year" className="select">
+                              <label
+                                   htmlFor="year"
+                                   className="text-sm text-gray-600"
+                              >
+                                   Year
+                              </label>
+                              <select
+                                   id="year"
+                                   value={formData.year}
+                                   onChange={handleInputChange}
+                                   className="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-3"
+                              >
                                    {Array.from({ length: 10 }, (_, i) => (
                                         <option
                                              key={i}
@@ -121,18 +147,30 @@ const PaymentCard = () => {
                               </select>
                          </div>
                          <div className="grid gap-2">
-                              <label htmlFor="cvc">CVC</label>
+                              <label
+                                   htmlFor="cvc"
+                                   className="text-sm text-gray-600"
+                              >
+                                   CVC
+                              </label>
                               <input
                                    id="cvc"
                                    placeholder="CVC"
-                                   className="input"
+                                   value={formData.cvc}
+                                   onChange={handleInputChange}
+                                   className="w-full"
                               />
                          </div>
                     </div>
-               </div>
-               <div className="card-footer">
-                    <button className="button w-full">Continue</button>
-               </div>
+                    <div className="mt-6">
+                         <button
+                              type="submit"
+                              className="w-full bg-black text-white py-2 px-4 rounded-md transition"
+                         >
+                              Continue
+                         </button>
+                    </div>
+               </form>
           </div>
      )
 }

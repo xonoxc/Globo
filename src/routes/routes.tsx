@@ -13,6 +13,8 @@ import {
 import { AuthLayout } from "../components"
 import NotFountPage from "../components/404"
 import ProfileEdit from "../pages/EditProfile"
+import SubscrtiptionPage from "../pages/Subscribe"
+import { Layout } from "../components/Layout"
 
 interface RouteChildren {
      path: string
@@ -22,13 +24,19 @@ interface RouteChildren {
 export const RouteChildren: RouteChildren[] = [
      {
           path: "/",
-          element: <Home />,
+          element: (
+               <Layout>
+                    <Home />
+               </Layout>
+          ),
      },
      {
           path: "/login",
           element: (
                <AuthLayout authentication={false}>
-                    <Login />
+                    <Layout>
+                         <Login />
+                    </Layout>
                </AuthLayout>
           ),
      },
@@ -36,7 +44,9 @@ export const RouteChildren: RouteChildren[] = [
           path: "/signup",
           element: (
                <AuthLayout authentication={false}>
-                    <Signup />
+                    <Layout>
+                         <Signup />
+                    </Layout>
                </AuthLayout>
           ),
      },
@@ -44,7 +54,9 @@ export const RouteChildren: RouteChildren[] = [
           path: "/all-posts",
           element: (
                <AuthLayout authentication>
-                    <AllPosts />
+                    <Layout>
+                         <AllPosts />
+                    </Layout>
                </AuthLayout>
           ),
      },
@@ -52,7 +64,9 @@ export const RouteChildren: RouteChildren[] = [
           path: "/add-post",
           element: (
                <AuthLayout authentication>
-                    <AddPost />
+                    <Layout>
+                         <AddPost />
+                    </Layout>
                </AuthLayout>
           ),
      },
@@ -60,23 +74,43 @@ export const RouteChildren: RouteChildren[] = [
           path: "/edit-post/:postId",
           element: (
                <AuthLayout authentication>
-                    <EditPost />
+                    <Layout>
+                         <EditPost />
+                    </Layout>
                </AuthLayout>
           ),
      },
      {
           path: "/post/:postId",
-          element: <Post />,
+          element: (
+               <Layout>
+                    <Post />
+               </Layout>
+          ),
      },
      {
           path: "/pricing",
-          element: <Pricing />,
+          element: (
+               <Layout>
+                    <Pricing />
+               </Layout>
+          ),
      },
      {
           path: "/results/search",
           element: (
                <AuthLayout authentication>
-                    <SearchResults />
+                    <Layout>
+                         <SearchResults />
+                    </Layout>
+               </AuthLayout>
+          ),
+     },
+     {
+          path: "/u/sub",
+          element: (
+               <AuthLayout authentication>
+                    <SubscrtiptionPage />
                </AuthLayout>
           ),
      },
