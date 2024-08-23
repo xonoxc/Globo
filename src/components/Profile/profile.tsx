@@ -4,6 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css"
 import ProfileFallback from "/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
 import { Button } from "../../components"
+import { History, Text } from "lucide-react"
 import getRelativeTime from "../../utils/date"
 import Fallback from "../../pages/Fallback"
 import DefaultCoverImage from "/cover_image.png"
@@ -63,9 +64,11 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                                    <div className="text-gray-500 mb-2">
                                         {data.email}
                                    </div>
-                                   <div className="bg-gray-500 text-white px-2 py-1 rounded-md font-medium">
-                                        Verified
-                                   </div>
+                                   {data.isVerified && (
+                                        <div className="bg-gray-500 text-white px-2 py-1 rounded-md font-medium">
+                                             Verified
+                                        </div>
+                                   )}
                               </>
                          )}
                     </div>
@@ -102,9 +105,11 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                                         <div className="text-lg font-semibold">
                                              Preferences
                                         </div>
-                                        <div className="bg-gray-400 text-white px-2 py-1 rounded-md font-medium">
-                                             Pro User
-                                        </div>
+                                        {data.preferences.proUser && (
+                                             <div className="bg-gray-400 text-white px-2 py-1 rounded-md font-medium">
+                                                  Pro User
+                                             </div>
+                                        )}
                                    </div>
                                    <div className="grid gap-2 text-gray-500">
                                         <div className="flex items-center justify-between">
@@ -144,7 +149,8 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                          ) : (
                               <>
                                    <div className="p-6 border rounded-lg shadow-md mb-4">
-                                        <div className="text-lg font-semibold">
+                                        <div className="text-lg font-semibold flex gap-1 items-center">
+                                             <History color="gray" />
                                              Recent Articles
                                         </div>
                                    </div>
@@ -156,11 +162,11 @@ export default function Profile({ data, isAuthor, loading }: IProfileProps) {
                                              >
                                                   <div className="p-4 border rounded-lg shadow-md">
                                                        <div className="flex flex-col gap-2">
-                                                            <div className="text-sm font-medium">
+                                                            <div className="text-sm font-medium flex items-center gap-2 ">
+                                                                 <Text color="gray" />
                                                                  {article.title}
                                                             </div>
                                                             <div className="text-xs text-gray-500">
-                                                                 on{" "}
                                                                  {getRelativeTime(
                                                                       article.createdAt
                                                                  )}

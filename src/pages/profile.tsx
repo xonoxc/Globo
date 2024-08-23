@@ -23,7 +23,7 @@ export default function ProfilePage(): JSX.Element {
                     <div className="back w-1/4">
                          <Button
                               className="md:w-1/3 w-1/2 flex  items-center justify-center bg-transparent font-bold gap-2"
-                              onClick={() => navigate("/pricing")}
+                              onClick={() => navigate("/")}
                          >
                               <MoveLeft size={15} fontWeight={800} />
                               Back

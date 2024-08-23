@@ -2,6 +2,7 @@ import { useState } from "react"
 import { CreditCard } from "lucide-react"
 import { subService } from "../../services/payment"
 import { useNavigate } from "react-router-dom"
+import { AxiosError } from "axios"
 
 const PaymentCard = () => {
      const navigate = useNavigate()
@@ -28,11 +29,15 @@ const PaymentCard = () => {
                const response = await subService.create(
                     Number(formData.cardNumber)
                )
+               console.log(response)
                if (response.status == 200) {
                     navigate("/")
                }
           } catch (error) {
                console.error("Error creating subscription:", error)
+               if (error instanceof AxiosError) {
+                    setError(error.response?.statusText as string)
+               }
           }
      }
 

@@ -11,9 +11,10 @@ interface Plan {
 
 interface PricingCardProps {
      plan: Plan
+     subStatus: boolean
 }
 
-const PricingCard: React.FC<PricingCardProps> = ({ plan }) => {
+const PricingCard: React.FC<PricingCardProps> = ({ plan, subStatus }) => {
      const navigate = useNavigate()
      const basicPlan = plan.price === "$0"
 
@@ -45,7 +46,9 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan }) => {
                          disabled={basicPlan}
                          onClick={() => navigate("/u/sub")}
                     >
-                         {basicPlan ? "Active" : "Upgrade"}
+                         {(basicPlan && !subStatus) || (!basicPlan && subStatus)
+                              ? "Active"
+                              : "Upgrade"}
                     </Button>
                </div>
           </div>
