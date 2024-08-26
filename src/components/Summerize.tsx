@@ -1,6 +1,7 @@
 import { completion } from "../services/completion"
 import React, { useEffect, useState } from "react"
 import { Sparkles } from "lucide-react"
+import Spinner from "../components/spinner/Spinner"
 
 interface SummerizeProps {
      content: string
@@ -60,7 +61,7 @@ const Summerize: React.FC<SummerizeProps> = ({
                </h2>
                {loading && (
                     <p className="text-gray-500 italic mb-4">
-                         Generating summary...
+                         <Spinner />
                     </p>
                )}
                {error && (

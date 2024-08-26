@@ -1,3 +1,4 @@
+import Spinner from "../components/spinner/Spinner.tsx"
 import { Container } from "../components"
 import { lazy, Suspense } from "react"
 
@@ -7,7 +8,7 @@ export default function AddPost(): JSX.Element {
      return (
           <div className="py-8">
                <Container>
-                    <Suspense fallback={<h2>Loading...</h2>}>
+                    <Suspense fallback={<Spinner />}>
                          <PostForm />
                     </Suspense>
                </Container>

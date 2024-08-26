@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react"
 import { useEffect, useState } from "react"
 import { PostProps } from "../types"
 import { useNavigate, useParams } from "react-router-dom"
+import Spinner from "../components/spinner/Spinner.tsx"
 import { postService } from "../services/conf"
 import { Container } from "../components"
 
@@ -14,7 +15,7 @@ export default function EditPost(): JSX.Element {
 
      useEffect(() => {
           if (postId) {
-               postService.getPostById(postId).then((result) => {
+               postService.getPostById(postId).then(result => {
                     setPost(result)
                })
           } else {
@@ -26,7 +27,7 @@ export default function EditPost(): JSX.Element {
           return (
                <div className="py-8">
                     <Container>
-                         <Suspense fallback={<h2>Loading...</h2>}>
+                         <Suspense fallback={<Spinner />}>
                               <PostForm post={post} />
                          </Suspense>
                     </Container>

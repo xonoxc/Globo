@@ -7,6 +7,7 @@ import { PostProps, userData } from "../../types"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../store/store.ts"
 import { removeCache } from "../../store/postSlice.ts"
+import Spinner from "../spinner/Spinner.tsx"
 
 type PostFormProps = {
      post?: Partial<PostProps>
@@ -34,7 +35,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
           localStorage.getItem("userData") as string
      ) as userData
 
-     const submit: SubmitHandler<PostProps> = async (data) => {
+     const submit: SubmitHandler<PostProps> = async data => {
           setLoading(true)
           try {
                if (post) {
@@ -101,7 +102,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
      if (loading) {
           return (
                <div className="wrapper flex items-center justify-center">
-                    <h2>loading...</h2>
+                    <Spinner />
                </div>
           )
      }
@@ -124,7 +125,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                          placeholder="Slug"
                          className="mb-4"
                          {...register("slug", { required: true })}
-                         onInput={(e) => {
+                         onInput={e => {
                               setValue(
                                    "slug",
                                    slugTransform(e.currentTarget.value),

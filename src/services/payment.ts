@@ -6,10 +6,14 @@ class Subscription {
      private serverUrl: string
 
      constructor() {
-          this.serverUrl = env?.VITE_SERVER_URL as string
+          if (env?.VITE_ENV !== "dev") {
+               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
+          } else {
+               this.serverUrl = env?.VITE_SERVER_URL as string
+          }
      }
 
-     public async create(card_number: number): Promise<any> {
+     public async create(card_number: string): Promise<any> {
           const response = await apiClient.post(
                `${this.serverUrl}/s/subscribe`,
                {

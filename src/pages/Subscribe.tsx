@@ -3,6 +3,7 @@ import { Container } from "../components"
 import { Button } from "../components"
 import { useNavigate } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
+import Spinner from "../components/spinner/Spinner"
 
 const PaymentComponent = React.lazy(
      () => import("../components/payment-form/PayFrom")
@@ -24,7 +25,7 @@ export default function Subscribe() {
                                    Back
                               </Button>
                          </div>
-                         <Suspense fallback={"loading..."}>
+                         <Suspense fallback={<Spinner />}>
                               <PaymentComponent />
                          </Suspense>
                     </Container>

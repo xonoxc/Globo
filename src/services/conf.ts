@@ -6,13 +6,17 @@ class PostService {
      private serverUrl: string
 
      constructor() {
-          this.serverUrl = env?.VITE_SERVER_URL as string
+          if (env?.VITE_ENV !== "dev") {
+               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
+          } else {
+               this.serverUrl = env?.VITE_SERVER_URL as string
+          }
      }
 
      private formatFormData(payload: any): FormData {
           const formData = new FormData()
 
-          Object.keys(payload).forEach((key) => {
+          Object.keys(payload).forEach(key => {
                const value = payload[key]
 
                if (value !== undefined && value !== null) {
@@ -20,7 +24,7 @@ class PostService {
                          typeof value === "object" &&
                          value instanceof FileList
                     ) {
-                         Array.from(value).forEach((file) => {
+                         Array.from(value).forEach(file => {
                               formData.append(key, file)
                          })
                     } else {

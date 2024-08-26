@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "./store/store"
 import { authService } from "./services/auth"
+import Spinner from "./components/spinner/Spinner"
 import { login, logout } from "./store/authSlice"
 import { Footer } from "./components"
 import { Outlet } from "react-router-dom"
@@ -16,7 +17,7 @@ export default function App(): JSX.Element {
           if (!currentUser) {
                authService
                     .getCurrentUser()
-                    .then((userData) => {
+                    .then(userData => {
                          if (userData) {
                               dispatch(
                                    login({
@@ -29,7 +30,7 @@ export default function App(): JSX.Element {
                               dispatch(logout())
                          }
                     })
-                    .catch((err) => console.error(err))
+                    .catch(err => console.error(err))
                     .finally(() => setLoading(false))
           } else {
                setLoading(false)
@@ -41,7 +42,13 @@ export default function App(): JSX.Element {
                <div className="flex flex-wrap min-h-screen content-between bg-white-200">
                     <div className="w-full block">
                          <main>
-                              {loading ? <div>loading....</div> : <Outlet />}
+                              {loading ? (
+                                   <div className="container h-screen w-full">
+                                        <Spinner />
+                                   </div>
+                              ) : (
+                                   <Outlet />
+                              )}
                          </main>
                          <Footer />
                     </div>

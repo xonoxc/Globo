@@ -8,7 +8,7 @@ export default function AllPosts(): JSX.Element {
      const [posts, setPosts] = useState<PostProps[] | undefined>([])
 
      useEffect(() => {
-          postService.getUserPosts().then((response) => {
+          postService.getUserPosts().then(response => {
                setPosts(response)
           })
      }, [])
@@ -31,17 +31,24 @@ export default function AllPosts(): JSX.Element {
                                              displayAvatar={false}
                                              imageUrl={post.image as string}
                                              title={post.title}
-                                             createdAt={post.createdAt}
+                                             createdAt={
+                                                  post.createdAt as string
+                                             }
                                         />
                                    </div>
                               ))
                          ) : (
                               <div className="alt-container flex items-center w-full justify-center flex-col">
-                                   <Text size={200} className="text-gray-300" />
-                                   <h2 className="text-center uppercase font-bold text-2xl">
-                                        No Posts Created
-                                   </h2>
-                                   <p>Create a post to get started!</p>
+                                   <div className="widget">
+                                        <Text
+                                             size={200}
+                                             className="text-gray-300"
+                                        />
+                                        <h2 className="text-center uppercase font-bold text-2xl">
+                                             No Posts Created
+                                        </h2>
+                                        <p>Create a post to get started!</p>
+                                   </div>
                               </div>
                          )}
                     </div>

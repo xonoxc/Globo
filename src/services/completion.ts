@@ -5,21 +5,38 @@ class Completion {
      private serverUrl: string
 
      constructor() {
-          this.serverUrl = env?.VITE_SERVER_URL as string
+          if (env?.VITE_ENV !== "dev") {
+               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
+          } else {
+               this.serverUrl = env?.VITE_SERVER_URL as string
+          }
      }
 
      public parsestreamResponse(response: string): string[] {
           const arrayContentMatch = response.match(/\[\s*([^\]]*)\s*\]/)
 
-          if (arrayContentMatch) {
-               try {
-                    return JSON.parse(arrayContentMatch[0]) as string[]
-               } catch (error) {
-                    console.error("Error parsing response:", error)
-               }
-          }
+          if (!arrayContentMatch) return []
 
-          return []
+          const content = arrayContentMatch[0]
+
+          try {
+               const parsedArray = JSON.parse(content) as string[]
+
+               if (
+                    Array.isArray(parsedArray) &&
+                    parsedArray.every(item => typeof item === "string")
+               ) {
+                    return parsedArray
+               } else {
+                    console.warn(
+                         "Parsed content is not a valid array of strings."
+                    )
+                    return []
+               }
+          } catch (error) {
+               console.error("Error parsing response:", error)
+               return []
+          }
      }
 
      public async getSummery(content: string): Promise<any> {

@@ -1,11 +1,12 @@
 import { lazy, Suspense } from "react"
+import Spinner from "../components/spinner/Spinner.tsx"
 
 const SignupComponent = lazy(() => import("../components/Signup.tsx"))
 
 export default function Signup(): JSX.Element {
      return (
           <div className="py-8">
-               <Suspense fallback={<h2>Loading...</h2>}>
+               <Suspense fallback={<Spinner/>}>
                     <SignupComponent />
                </Suspense>
           </div>

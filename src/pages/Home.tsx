@@ -9,6 +9,7 @@ import { MetroSpinner } from "react-spinners-kit"
 import { useDispatch, useSelector } from "react-redux"
 import { Newspaper } from "lucide-react"
 import { saveCache } from "../store/postSlice"
+import Spinner from "../components/spinner/Spinner"
 const Search = React.lazy(() => import("../components/Search"))
 
 export default function Home(): JSX.Element {
@@ -105,7 +106,7 @@ export default function Home(): JSX.Element {
                <Container>
                     <div className=" flex items-center justify-center w-full ">
                          <div className="relative bg-white rounded-md border-b-gray border-2 border-t-0 border-r-0 border-l-0 p-4 w-full">
-                              <Suspense fallback={<div>Loading...</div>}>
+                              <Suspense fallback={<Spinner/>}>
                                    <Search />
                               </Suspense>
                          </div>

@@ -19,17 +19,14 @@ const PaymentCard = () => {
           e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
      ) => {
           const { id, value } = e.target
-          setFormData((prev) => ({ ...prev, [id]: value }))
+          setFormData(prev => ({ ...prev, [id]: value }))
      }
 
      const handleSubmit = async (e: React.FormEvent) => {
           e.preventDefault()
           setError("")
           try {
-               const response = await subService.create(
-                    Number(formData.cardNumber)
-               )
-               console.log(response)
+               const response = await subService.create(formData.cardNumber)
                if (response.status == 200) {
                     navigate("/")
                }

@@ -1,6 +1,9 @@
 import { Check } from "lucide-react"
 import Button from "../Button"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { RootState } from "../../store/store"
+import { useSubscrtiption } from "../../hooks/useSubscription"
 
 interface Plan {
      name: string
@@ -15,8 +18,11 @@ interface PricingCardProps {
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({ plan, subStatus }) => {
+     const { status, userData } = useSelector((state: RootState) => state.auth)
      const navigate = useNavigate()
      const basicPlan = plan.price === "$0"
+
+     const redirectionUrl = status ? "/u/sub" : "/login"
 
      return (
           <div className="w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-between bg-white shadow-md rounded-lg p-6 mx-2 my-4">
@@ -43,8 +49,8 @@ const PricingCard: React.FC<PricingCardProps> = ({ plan, subStatus }) => {
                     <p className="text-gray-600 text-4xl mb-4">{plan.price}</p>
                     <Button
                          className="bg-black w-full text-white font-bold py-2 px-4 rounded-lg"
-                         disabled={basicPlan}
-                         onClick={() => navigate("/u/sub")}
+                         disabled={basicPlan || (!basicPlan && subStatus)}
+                         onClick={() => navigate(redirectionUrl)}
                     >
                          {(basicPlan && !subStatus) || (!basicPlan && subStatus)
                               ? "Active"
