@@ -51,7 +51,6 @@ export default function App(): JSX.Element {
                             <Outlet />
                         )}
                     </main>
-                    <Footer />
                 </div>
             </div>
         </>
