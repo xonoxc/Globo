@@ -4,7 +4,6 @@ import { AppDispatch } from "./store/store";
 import { authService } from "./services/auth";
 import Spinner from "./components/spinner/Spinner";
 import { login, logout } from "./store/authSlice";
-import { Footer } from "./components";
 import { Outlet } from "react-router-dom";
 import { RootState } from "./store/store";
 
