@@ -12,7 +12,6 @@ import Input from "./header/input"
 import RTE from "./RTE"
 import Signup from "./Signup"
 import Login from "./Login"
-import PostForm from "./post-form/post-form"
 
 export {
      Header,
@@ -27,7 +26,6 @@ export {
      RTE,
      Signup,
      Login,
-     PostForm,
      PostCard,
      AuthLayout,
 }

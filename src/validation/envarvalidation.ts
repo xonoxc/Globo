@@ -7,7 +7,7 @@ const configSchema = z.object({
      VITE_PROD_SERVER_URL: z.string().min(1),
 })
 
-const validateEnvironmentSchema = (config: Object) => {
+const validateEnvironmentSchema = (config: object) => {
      try {
           const parsedVars = configSchema.safeParse(config)
 

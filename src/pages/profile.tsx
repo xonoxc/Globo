@@ -12,11 +12,11 @@ const ProfileComponent = lazy(() => import("../components/Profile/profile.tsx"))
 
 export default function ProfilePage(): JSX.Element {
      const { userId } = useParams<{ userId: string }>()
+     const { profile, isAuthor, loading } = useProfile(userId as string)
      const navigate = useNavigate()
 
      if (!userId) return <Fallback />
 
-     const { profile, isAuthor, loading } = useProfile(userId as string)
 
      return (
           <div className="py-8">

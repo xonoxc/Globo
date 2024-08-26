@@ -3,7 +3,6 @@ import Button from "../Button"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { RootState } from "../../store/store"
-import { useSubscrtiption } from "../../hooks/useSubscription"
 
 interface Plan {
      name: string
@@ -18,7 +17,7 @@ interface PricingCardProps {
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({ plan, subStatus }) => {
-     const { status, userData } = useSelector((state: RootState) => state.auth)
+     const { status } = useSelector((state: RootState) => state.auth)
      const navigate = useNavigate()
      const basicPlan = plan.price === "$0"
 

@@ -6,7 +6,7 @@ interface ISubsProps {
      fetchStatus: (userId: string) => Promise<void>
 }
 
-const subscriptionContext = createContext<ISubsProps | {}>({})
+const subscriptionContext = createContext<ISubsProps | Record<string , never>>({})
 
 interface ISubsProviderProps {
      children: React.ReactNode

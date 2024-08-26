@@ -99,6 +99,7 @@ const ProfileForm = ({ userId }: ProfileFormProps) => {
                }
           },
           [
+			   dispatch,
                navigate,
                profile?.id,
                setLoading,
