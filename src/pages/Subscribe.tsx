@@ -25,7 +25,9 @@ export default function Subscribe() {
                                    Back
                               </Button>
                          </div>
-                         <Suspense fallback={<Spinner />}>
+                         <Suspense
+                              fallback={<Spinner className="text-black" />}
+                         >
                               <PaymentComponent />
                          </Suspense>
                     </Container>
