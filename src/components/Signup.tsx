@@ -53,7 +53,7 @@ const Signup: React.FC = (): JSX.Element => {
      }
 
      if (loading) {
-          return <Spinner />
+          return <Spinner className="text-black" />
      }
 
      return (

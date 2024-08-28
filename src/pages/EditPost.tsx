@@ -27,7 +27,9 @@ export default function EditPost(): JSX.Element {
           return (
                <div className="py-8">
                     <Container>
-                         <Suspense fallback={<Spinner />}>
+                         <Suspense
+                              fallback={<Spinner className="text-black" />}
+                         >
                               <PostForm post={post} />
                          </Suspense>
                     </Container>

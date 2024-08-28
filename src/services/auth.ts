@@ -86,8 +86,6 @@ class AuthService {
           console.log(props)
           const formData = this.formatFormData(props)
 
-          console.log(formData)
-
           const response = await apiClient.patch(
                `${this.serverURL}/usr/c`,
                formData,

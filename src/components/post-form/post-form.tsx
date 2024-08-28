@@ -102,7 +102,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
      if (loading) {
           return (
                <div className="wrapper flex items-center justify-center">
-                    <Spinner />
+                    <Spinner className="text-black" />
                </div>
           )
      }
@@ -136,7 +136,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
                          }}
                     />
 
-                    <Suspense fallback={<h2>loadig editor ....</h2>}>
+                    <Suspense fallback={<Spinner className="text-black" />}>
                          <RTE
                               label="content:"
                               name="content"

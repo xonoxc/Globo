@@ -106,13 +106,15 @@ export default function Home(): JSX.Element {
                <Container>
                     <div className=" flex items-center justify-center w-full ">
                          <div className="relative bg-white rounded-md border-b-gray border-2 border-t-0 border-r-0 border-l-0 p-4 w-full">
-                              <Suspense fallback={<Spinner/>}>
+                              <Suspense
+                                   fallback={<Spinner className="text-black" />}
+                              >
                                    <Search />
                               </Suspense>
                          </div>
                     </div>
                     <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-4 gap-4">
-                         {posts.map((post) => (
+                         {posts.map(post => (
                               <div
                                    key={post.id}
                                    className="p-2 w-full  sm:w-1/4 "

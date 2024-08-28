@@ -39,10 +39,10 @@ class Completion {
           }
      }
 
-     public async getSummery(content: string): Promise<any> {
+     public async getSummery(content: string, retry: boolean): Promise<any> {
           const response = await apiClient.post(
                `${this.serverUrl}/ai/summerize`,
-               { content },
+               { content, retry },
                {
                     responseType: "stream",
                     headers: {

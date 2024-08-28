@@ -82,7 +82,7 @@ export default function SearchResults(): JSX.Element {
                <Container>
                     <div className="results grid lg:grid-cols-4 md:grid-cols-3  grid-cols-1">
                          {loading ? (
-                              <Spinner />
+                              <Spinner className="text-black" />
                          ) : (
                               results.map((result, index) => (
                                    <PostCard

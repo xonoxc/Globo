@@ -17,10 +17,9 @@ export default function ProfilePage(): JSX.Element {
 
      if (!userId) return <Fallback />
 
-
      return (
           <div className="py-8">
-               <Suspense fallback={<Spinner />}>
+               <Suspense fallback={<Spinner className="text-black" />}>
                     <div className="back w-1/4">
                          <Button
                               className="md:w-1/3 w-1/2 flex  items-center justify-center bg-transparent font-bold gap-2"
