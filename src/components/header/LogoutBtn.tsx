@@ -13,7 +13,7 @@ const LogoutBtn: React.FC = () => {
      const logoutHandler = (): void => {
           authService
                .logOut()
-               .then((response) => {
+               .then(response => {
                     if (response.status === 200) {
                          dispatch(removeCache())
                          dispatch(logout())

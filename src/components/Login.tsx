@@ -6,14 +6,13 @@ import loginSchema from "../validation/auth/login"
 import { getTokenExpiry } from "../utils/token"
 import { Link, useNavigate } from "react-router-dom"
 import { login as authLogin, setRefreshToken } from "../store/authSlice"
-import { toast } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import { Button, Input, Logo } from "."
 import { authService } from "../services/auth"
 import { useDispatch } from "react-redux"
 import { userData } from "@/types"
 import { AppDispatch } from "../store/store"
 import Spinner from "../components/spinner/Spinner"
-import { ToastContainer } from "react-toastify"
 import { toastConfig } from "../config/toast.config"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -60,7 +59,6 @@ const Login: React.FC = (): JSX.Element => {
                     }
                }
           } catch (error: any) {
-               console.log(error)
                toast.error(error.message, toastConfig)
           } finally {
                setLoading(false)

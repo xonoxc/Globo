@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { PostProps, userData } from "../types"
 import { useNavigate, Link, useParams } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
+import { ToastContainer, toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import Skeleton from "react-loading-skeleton"
 import { AppDispatch, RootState } from "../store/store"
@@ -14,6 +15,7 @@ import he from "he"
 import HTMLComponent from "../components/renderer/HTML"
 import { useSubscrtiption } from "../hooks/useSubscription"
 import Summerize from "../components/Summerize"
+import { ShareButton } from "../components"
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
@@ -67,22 +69,42 @@ export default function Post(): JSX.Element {
           <div className="py-8">
                <Container>
                     <div className="upper flex items-center justify-between">
-                         <div className="back px-4 md:px-2 w-1/5 md:w-1/12 mb-3 bg-black text-white rounded-md flex items-center justify-center ">
-                              <Button
-                                   className="md:w-1/2 w-full flex py-3 md:py-2 items-center justify-center bg-transparent font-bold gap-2 "
-                                   onClick={() => navigate("/")}
-                              >
-                                   <MoveLeft size={15} fontWeight={800} />
-                                   <span className="hidden md:block">Back</span>
-                              </Button>
+                         <div className="flex items-center justify-center gap-2 w-1/3 md:w-1/5">
+                              <div className="back px-4 md:px-1 w-1/2  mb-3 bg-transparent text-black rounded-md flex items-center justify-center ">
+                                   <Button
+                                        className="md:w-1/2 w-full flex py-2.5 items-center justify-center bg-transparent font-bold gap-2  "
+                                        onClick={() => navigate("/")}
+                                   >
+                                        <span className="flex gap-2 items-center text-sm">
+                                             <MoveLeft
+                                                  size={15}
+                                                  fontWeight={800}
+                                             />
+                                             <span className="hidden md:block">
+                                                  Back
+                                             </span>
+                                        </span>
+                                   </Button>
+                              </div>
+                              <div className="flex items-center justify-center mb-2">
+                                   <ShareButton
+                                        done={() =>
+                                             toast.success(
+                                                  "link copied to clipboard"
+                                             )
+                                        }
+                                   />
+                              </div>
                          </div>
                          {isAuthor && (
                               <div className="mb-3 flex items-center justify-end gap-2 ">
                                    <div className="ctrl-btns flex gap-2">
                                         <Link to={`/edit-post/${post.id}`}>
-                                             <Button className=" text-white flex gap-2 ">
+                                             <Button className=" text-white flex gap-2 items-center">
                                                   <PencilLine />
-                                                  Edit
+                                                  <span className="hidden md:block">
+                                                       Edit
+                                                  </span>
                                              </Button>
                                         </Link>
                                         <Button
@@ -134,6 +156,20 @@ export default function Post(): JSX.Element {
                          )}
                     </div>
                </Container>
+
+               <ToastContainer
+                    className={"shadow-black shadow-xl border-2 rounded-xl"}
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+               />
           </div>
      )
 }

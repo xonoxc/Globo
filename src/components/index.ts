@@ -12,6 +12,7 @@ import Input from "./header/input"
 import RTE from "./RTE"
 import Signup from "./Signup"
 import Login from "./Login"
+import ShareButton from "./Share"
 
 export {
      Header,
@@ -28,4 +29,5 @@ export {
      Login,
      PostCard,
      AuthLayout,
+     ShareButton,
 }
