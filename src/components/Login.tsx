@@ -55,6 +55,8 @@ const Login: React.FC = (): JSX.Element => {
                                    ),
                               })
                          )
+                         toast.success("Login successful!!", toastConfig)
+
                          navigate("/")
                     }
                }
@@ -72,7 +74,6 @@ const Login: React.FC = (): JSX.Element => {
      return (
           <div className="flex items-center justify-center w-full">
                <ToastContainer
-                    className={"shadow-black shadow-xl border-2 rounded-xl"}
                     position="bottom-right"
                     autoClose={5000}
                     hideProgressBar
