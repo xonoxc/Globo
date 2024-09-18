@@ -13,6 +13,7 @@ import RTE from "./RTE"
 import Signup from "./Signup"
 import Login from "./Login"
 import ShareButton from "./Share"
+import ActionStrip from "./ActionStrip.tsx"
 
 export {
      Header,
@@ -30,4 +31,5 @@ export {
      PostCard,
      AuthLayout,
      ShareButton,
+     ActionStrip,
 }

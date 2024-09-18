@@ -101,6 +101,8 @@ export default function Home(): JSX.Element {
           )
      }
 
+     console.log(posts)
+
      return (
           <div className="w-full py-8 ">
                <Container>
@@ -123,9 +125,9 @@ export default function Home(): JSX.Element {
                                         title={post.title}
                                         id={post.id as number}
                                         imageUrl={post.image as string}
-                                        authorName={post.User?.name as string}
+                                        authorName={post.user?.name as string}
                                         authorAvatar={
-                                             post.User?.avatar as string
+                                             post.user?.avatar as string
                                         }
                                         displayAvatar
                                         createdAt={post.createdAt as string}

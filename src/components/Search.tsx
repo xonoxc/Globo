@@ -57,7 +57,7 @@ const Search: React.FC = () => {
                     <div className="flex w-full md:w-1/2 gap-2">
                          <Input
                               type="text"
-                              onChange={(e) => setQuery(e.target.value)}
+                              onChange={e => setQuery(e.target.value)}
                               placeholder="Search....."
                               onKeyDown={handleKeyDown}
                               className="flex-grow border-2 p-2"
@@ -73,7 +73,7 @@ const Search: React.FC = () => {
                          </div>
                     </div>
                     {loading && (
-                         <div className="mt-2 text-blue-500">Loading...</div>
+                         <div className="mt-2 text-black-500">Loading...</div>
                     )}
                     {suggestions.length > 0 && (
                          <ul className="md:w-1/2 mt-2 bg-white border rounded-md">

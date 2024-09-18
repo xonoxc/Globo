@@ -1,16 +1,10 @@
-import env from "../config/config"
 import { apiClient } from "../config/axios.config"
 import { PostProps } from "../types"
+import Service from "./base"
 
-class PostService {
-     private serverUrl: string
-
+class PostService extends Service {
      constructor() {
-          if (env?.VITE_ENV !== "dev") {
-               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
-          } else {
-               this.serverUrl = env?.VITE_SERVER_URL as string
-          }
+          super()
      }
 
      private formatFormData(payload: any): FormData {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { PostProps, userData } from "../types"
 import { useNavigate, Link, useParams } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
@@ -16,6 +16,11 @@ import HTMLComponent from "../components/renderer/HTML"
 import { useSubscrtiption } from "../hooks/useSubscription"
 import Summerize from "../components/Summerize"
 import { ShareButton } from "../components"
+
+const ActionStrip = lazy(() => import("../components/ActionStrip"))
+const CommentSection = lazy(
+     () => import("../components/Comments/commentSection")
+)
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
@@ -155,10 +160,28 @@ export default function Post(): JSX.Element {
                               <HTMLComponent html={he.decode(post.content)} />
                          )}
                     </div>
+
+                    <Suspense fallback={<div>Loading...</div>}>
+                         <div className="w-full flex items-center px-2">
+                              <ActionStrip
+                                   isLoading={false}
+                                   displayAvatar
+                                   name={post.user?.name as string}
+                                   postId={post.id as string}
+                                   avatar={post.user?.avatar as string}
+                                   createdAt={post?.createdAt as string}
+                              />
+                         </div>
+                    </Suspense>
+
+                    <Suspense fallback={<div>Loading...</div>}>
+                         <div className="w-full flex items-center px-2">
+                              <CommentSection />
+                         </div>
+                    </Suspense>
                </Container>
 
                <ToastContainer
-                    className={"shadow-black shadow-xl border-2 rounded-xl"}
                     position="bottom-right"
                     autoClose={5000}
                     hideProgressBar

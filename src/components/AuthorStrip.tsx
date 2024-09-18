@@ -26,7 +26,7 @@ const AuthorStrip = (props: IStripProps) => {
                ) : (
                     <div className="author flex flex-row items-center p-2 gap-2">
                          {props.displayAvatar && (
-                              <div className="img">
+                              <div className="img flex items-center justify-center">
                                    <Avatar
                                         imageUrl={
                                              props.avatar === ""
@@ -36,7 +36,7 @@ const AuthorStrip = (props: IStripProps) => {
                                    />
                               </div>
                          )}
-                         <span className="text-gray-500 font-bold">
+                         <span className="text-black-500 font-bold">
                               {props.name && props.name}
                          </span>
                     </div>

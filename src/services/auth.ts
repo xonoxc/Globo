@@ -1,19 +1,13 @@
 import axios from "axios"
-import env from "../config/config"
+import Service from "./base"
 import { apiClient } from "../config/axios.config"
 import { ApiResponse } from "@/types/apiResponse"
 import { userData } from "../types"
 import { UpdateUserProps } from "../types/user"
 
-class AuthService {
-     private serverURL: string
-
+class AuthService extends Service {
      constructor() {
-          if (env?.VITE_ENV !== "dev") {
-               this.serverURL = env?.VITE_PROD_SERVER_URL as string
-          } else {
-               this.serverURL = env?.VITE_SERVER_URL as string
-          }
+          super()
      }
 
      private formatFormData(payload: any): FormData {
@@ -45,7 +39,7 @@ class AuthService {
           coverImage?: File | FileList
      ): Promise<userData> {
           const response = await axios.post(
-               `${this.serverURL}/usr/auth/signup`,
+               `${this.serverUrl}/usr/auth/signup`,
                {
                     name,
                     email,
@@ -66,7 +60,7 @@ class AuthService {
 
      public async login(email: string, password: string): Promise<ApiResponse> {
           const response = await axios.post(
-               `${this.serverURL}/usr/auth/login`,
+               `${this.serverUrl}/usr/auth/login`,
                {
                     email,
                     password,
@@ -83,11 +77,10 @@ class AuthService {
      }
 
      public async editUserProfile(props: UpdateUserProps): Promise<any> {
-          console.log(props)
           const formData = this.formatFormData(props)
 
           const response = await apiClient.patch(
-               `${this.serverURL}/usr/c`,
+               `${this.serverUrl}/usr/c`,
                formData,
                {
                     headers: {
@@ -101,7 +94,7 @@ class AuthService {
 
      public async getCurrentUser(): Promise<userData> {
           const response: ApiResponse = await apiClient.get(
-               `${this.serverURL}/usr/c`
+               `${this.serverUrl}/usr/c`
           )
 
           return response.data.data?.user as userData
@@ -109,7 +102,7 @@ class AuthService {
 
      public async getUserProfile(userId: string): Promise<any> {
           const response = await apiClient.get(
-               `${this.serverURL}/usr/p/${userId}`
+               `${this.serverUrl}/usr/p/${userId}`
           )
 
           return response.data.data.profile
@@ -117,7 +110,7 @@ class AuthService {
 
      public async logOut(): Promise<ApiResponse> {
           const response: ApiResponse = await apiClient.post(
-               `${this.serverURL}/usr/auth/logout`
+               `${this.serverUrl}/usr/auth/logout`
           )
 
           return response
@@ -125,7 +118,7 @@ class AuthService {
 
      public async getSubscription(userId: string): Promise<boolean> {
           const responsse = await apiClient.get(
-               `${this.serverURL}/usr/c/sub/${userId}`
+               `${this.serverUrl}/usr/c/sub/${userId}`
           )
 
           return responsse.data.data.proUser as boolean

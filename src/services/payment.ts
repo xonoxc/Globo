@@ -1,16 +1,10 @@
 import { apiClient } from "../config/axios.config"
-import env from "../config/config"
 import { v4 } from "uuid"
+import Service from "./base"
 
-class Subscription {
-     private serverUrl: string
-
+class Subscription extends Service {
      constructor() {
-          if (env?.VITE_ENV !== "dev") {
-               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
-          } else {
-               this.serverUrl = env?.VITE_SERVER_URL as string
-          }
+          super()
      }
 
      public async create(card_number: string): Promise<any> {

@@ -63,8 +63,8 @@ const PostCard: React.FC<PostCardProps> = ({
                     <AuthorStrip
                          isLoading={isLoading}
                          displayAvatar={displayAvatar}
-                         name={authorName}
-                         avatar={authorAvatar}
+                         name={authorName ? authorName : ""}
+                         avatar={authorAvatar ? authorAvatar : ""}
                          createdAt={createdAt}
                     />
                </div>

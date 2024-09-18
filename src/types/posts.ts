@@ -6,11 +6,12 @@ export interface PostProps {
      image: string | FileList
      slug?: string
      status: string
-     User?: {
+     user?: {
           name: string
           avatar: string
      }
      createdAt?: string
+     updatedAt?: string
 }
 
 export interface feedPosts {

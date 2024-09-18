@@ -1,15 +1,9 @@
 import { apiClient } from "../config/axios.config"
-import env from "../config/config"
+import Service from "./base"
 
-class Completion {
-     private serverUrl: string
-
+class Completion extends Service {
      constructor() {
-          if (env?.VITE_ENV !== "dev") {
-               this.serverUrl = env?.VITE_PROD_SERVER_URL as string
-          } else {
-               this.serverUrl = env?.VITE_SERVER_URL as string
-          }
+          super()
      }
 
      public parsestreamResponse(response: string): string[] {
