@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+     --toastify-color-success: #cccccc;
+     --toastify-icon-color-success: var(--toastify-color-success);
+}

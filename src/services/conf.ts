@@ -79,8 +79,6 @@ class PostService extends Service {
                `${this.serverUrl}/p/suggest/posts?query=${query}`
           )
 
-          console.log("search suggestion response :", response.data.data)
-
           return response.data.data
      }
 

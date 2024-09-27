@@ -6,7 +6,9 @@ interface ISubsProps {
      fetchStatus: (userId: string) => Promise<void>
 }
 
-const subscriptionContext = createContext<ISubsProps | Record<string , never>>({})
+const subscriptionContext = createContext<ISubsProps | Record<string, never>>(
+     {}
+)
 
 interface ISubsProviderProps {
      children: React.ReactNode
@@ -34,9 +36,14 @@ export const SubscriptionProvider = ({ children }: ISubsProviderProps) => {
 }
 
 export const useSubscrtiption = (userId: string): { status: boolean } => {
-     const { status, fetchStatus } = useContext(
-          subscriptionContext
-     ) as ISubsProps
+     const context = useContext(subscriptionContext) as ISubsProps
+
+     if (!context)
+          throw new Error(
+               "useSubscrtiption must be used within a SubscriptionProvider"
+          )
+
+     const { fetchStatus, status } = context
 
      useEffect(() => {
           fetchStatus(userId)

@@ -16,6 +16,8 @@ import ProfileEdit from "../pages/EditProfile"
 import SubscrtiptionPage from "../pages/Subscribe"
 import { Layout } from "../components/Layout"
 
+import { CommentsProvider } from "../hooks/useComments"
+
 interface RouteChildren {
      path: string
      element: JSX.Element
@@ -84,7 +86,9 @@ export const RouteChildren: RouteChildren[] = [
           path: "/post/:postId",
           element: (
                <Layout>
-                    <Post />
+                    <CommentsProvider>
+                         <Post />
+                    </CommentsProvider>
                </Layout>
           ),
      },

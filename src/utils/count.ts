@@ -1,4 +1,8 @@
 const getRelativeCount = (count: number): string => {
+     if (count === 0) {
+          return "0"
+     }
+
      switch (true) {
           case count >= 1e9:
                return (count / 1e9).toFixed(1).replace(/\.0$/, "") + "B"

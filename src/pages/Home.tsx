@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Newspaper } from "lucide-react"
 import { saveCache } from "../store/postSlice"
 import Spinner from "../components/spinner/Spinner"
+
 const Search = React.lazy(() => import("../components/Search"))
 
 export default function Home(): JSX.Element {
@@ -100,8 +101,6 @@ export default function Home(): JSX.Element {
                </div>
           )
      }
-
-     console.log(posts)
 
      return (
           <div className="w-full py-8 ">

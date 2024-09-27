@@ -15,47 +15,25 @@ class Stats extends Service {
 
      public async toggleLike(postId: string) {
           const response = await apiClient.post(
-               `${this.serverUrl}/p/sts/like`,
-               { postId }
+               `${this.serverUrl}/likes/${postId}`
           )
 
           return response
      }
 
-     public async addComment(
-          content: string,
-          postId: string,
-          parentId?: string
-     ) {
+     public async toggleCommentLike(commentId: string) {
           const response = await apiClient.post(
-               `${this.serverUrl}/p/comments/${postId}`,
-               { content, parentId }
+               `${this.serverUrl}/likes/${commentId}`
           )
-
           return response
      }
 
-     public async getComments(postId: string) {
+     public async getPostLikeStatus(postId: string) {
           const response = await apiClient.get(
-               `${this.serverUrl}/p/comments/${postId}`
+               `${this.serverUrl}/likes/sts/${postId}`
           )
 
           return response.data.data
-     }
-
-     public async getCommentReplies(postId: string) {
-          const response = await apiClient.get(
-               `${this.serverUrl}/p/comments/${postId}`
-          )
-
-          return response.data.data
-     }
-
-     public async deleteComment(commentId: string) {
-          const response = await apiClient.delete(
-               `${this.serverUrl}/p/comments/${commentId}`
-          )
-          return response
      }
 }
 

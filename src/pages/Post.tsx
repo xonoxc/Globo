@@ -1,7 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from "react"
 import { PostProps, userData } from "../types"
 import { useNavigate, Link, useParams } from "react-router-dom"
-import { MoveLeft } from "lucide-react"
+import { ClipboardCheck, MoveLeft } from "lucide-react"
 import { ToastContainer, toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import Skeleton from "react-loading-skeleton"
@@ -24,6 +24,8 @@ const CommentSection = lazy(
 
 export default function Post(): JSX.Element {
      const [post, setPost] = useState<PostProps | null>(null)
+     const [isCommentFormVisible, setIsCommentFormVisible] =
+          useState<boolean>(false)
      const { postId } = useParams()
      const dispatch = useDispatch<AppDispatch>()
      const navigate = useNavigate()
@@ -66,6 +68,10 @@ export default function Post(): JSX.Element {
           }
      }
 
+     const toggleCommentForm = () => {
+          setIsCommentFormVisible(!isCommentFormVisible)
+     }
+
      if (!post) {
           return <></>
      }
@@ -95,7 +101,12 @@ export default function Post(): JSX.Element {
                                    <ShareButton
                                         done={() =>
                                              toast.success(
-                                                  "link copied to clipboard"
+                                                  "link copied to clipboard",
+                                                  {
+                                                       icon: (
+                                                            <ClipboardCheck color="#0f1014" />
+                                                       ),
+                                                  }
                                              )
                                         }
                                    />
@@ -164,19 +175,23 @@ export default function Post(): JSX.Element {
                     <Suspense fallback={<div>Loading...</div>}>
                          <div className="w-full flex items-center px-2">
                               <ActionStrip
-                                   isLoading={false}
                                    displayAvatar
                                    name={post.user?.name as string}
-                                   postId={post.id as string}
+                                   postId={post.id ? post.id.toString() : ""}
+                                   authorId={post.user?.id as string}
                                    avatar={post.user?.avatar as string}
                                    createdAt={post?.createdAt as string}
+                                   onToggleCommentSection={toggleCommentForm}
                               />
                          </div>
                     </Suspense>
 
                     <Suspense fallback={<div>Loading...</div>}>
                          <div className="w-full flex items-center px-2">
-                              <CommentSection />
+                              <CommentSection
+                                   isFormVisible={isCommentFormVisible}
+                                   postId={post.id ? post.id.toString() : ""}
+                              />
                          </div>
                     </Suspense>
                </Container>

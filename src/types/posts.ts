@@ -7,6 +7,7 @@ export interface PostProps {
      slug?: string
      status: string
      user?: {
+          id: string
           name: string
           avatar: string
      }
