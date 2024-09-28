@@ -149,7 +149,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                               <li key={comment.id} className="border-t pt-4">
                                    <div className="flex items-start space-x-4">
                                         <Link
-                                             to={`/u/profile/${comment.user.id}`}
+                                             to={`/u/profile/${comment.userId}`}
                                         >
                                              <img
                                                   src={comment.user.avatar}
@@ -219,8 +219,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                                        <MessageCircle className="h-4 w-4 mr-1" />
                                                        <span>Reply</span>
                                                   </button>
-                                                  {comment._count.replies >
-                                                       0 && (
+                                                  {Number(
+                                                       comment._count.replies
+                                                  ) > 0 && (
                                                        <button
                                                             onClick={() =>
                                                                  toggleReplies(
@@ -285,9 +286,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                                                            comment.id
                                                                       )
                                                                  }
-                                                                 className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                                                                 className="px-4 py-2 bg-black text-white rounded-md"
                                                             >
-                                                                 Post Reply
+                                                                 Reply
                                                             </button>
                                                        </div>
                                                   </div>
@@ -295,42 +296,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                              {expandedReplies.includes(
                                                   comment.id
                                              ) && (
-                                                  <ul className="mt-4 space-y-4">
-                                                       {comment.replies.map(
-                                                            reply => (
-                                                                 <li
-                                                                      key={
-                                                                           reply.id
-                                                                      }
-                                                                      className="flex items-start space-x-4"
-                                                                 >
-                                                                      <img
-                                                                           src={`https://i.pravatar.cc/40?img=${reply.user.id}`}
-                                                                           alt={
-                                                                                reply
-                                                                                     .user
-                                                                                     .name
-                                                                           }
-                                                                           className="h-8 w-8 rounded-full"
-                                                                      />
-                                                                      <div className="flex-1">
-                                                                           <h4 className="font-semibold">
-                                                                                {
-                                                                                     reply
-                                                                                          .user
-                                                                                          .name
-                                                                                }
-                                                                           </h4>
-                                                                           <p className="text-gray-700">
-                                                                                {
-                                                                                     reply.content
-                                                                                }
-                                                                           </p>
-                                                                      </div>
-                                                                 </li>
-                                                            )
-                                                       )}
-                                                  </ul>
+                                                  <ul className="mt-4 space-y-4"></ul>
                                              )}
                                         </div>
                                    </div>

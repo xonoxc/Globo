@@ -1,4 +1,4 @@
-import { JSX, lazy, Suspense } from "react"
+import { JSX, lazy, Suspense, useEffect, useState } from "react"
 import { IUserProfile } from "@/types/apiResponse.ts"
 import { useParams } from "react-router-dom"
 import { useProfile } from "../hooks/useProfile.tsx"
@@ -7,13 +7,24 @@ import Spinner from "../components/spinner/Spinner.tsx"
 import Fallback from "../pages/Fallback.tsx"
 import Button from "../components/Button.tsx"
 import { MoveLeft } from "lucide-react"
+import { bookmarks as bookmarksService } from "../services/bookmarks.ts"
 
 const ProfileComponent = lazy(() => import("../components/Profile/profile.tsx"))
 
 export default function ProfilePage(): JSX.Element {
      const { userId } = useParams<{ userId: string }>()
      const { profile, isAuthor, loading } = useProfile(userId as string)
+     const [bookmarks, setBookmarks] = useState<
+          { articleId: string; post: { title: string }; createdAt: string }[]
+     >([])
      const navigate = useNavigate()
+
+     useEffect(() => {
+          ;(async () => {
+               const response = await bookmarksService.getUserBookmarks()
+               if (response) setBookmarks(response)
+          })()
+     }, [profile])
 
      if (!userId) return <Fallback />
 
@@ -33,6 +44,7 @@ export default function ProfilePage(): JSX.Element {
                          data={profile as IUserProfile}
                          isAuthor={isAuthor}
                          loading={loading}
+                         bookmarks={bookmarks}
                     />
                </Suspense>
           </div>

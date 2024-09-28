@@ -14,6 +14,7 @@ interface Comment {
           likes: string
           replies: string
      }
+     userId: string
 }
 
 interface CommentsContextProps {
@@ -26,6 +27,7 @@ interface CommentsContextProps {
      deleteComment: (id: string) => Promise<void>
      toggleCommentLike: (id: string) => Promise<void>
      fetchComments: (postId: string) => Promise<void>
+     fetchReplies: (commentId: string) => Promise<any>
 }
 
 const commentContext = createContext<CommentsContextProps>({
@@ -34,6 +36,7 @@ const commentContext = createContext<CommentsContextProps>({
      deleteComment: () => Promise.resolve(),
      toggleCommentLike: () => Promise.resolve(),
      fetchComments: () => Promise.resolve(),
+     fetchReplies: () => Promise.resolve(),
 })
 
 export const CommentsProvider = ({
@@ -92,6 +95,15 @@ export const CommentsProvider = ({
           }
      }
 
+     const fetchReplies = async (commentId: string) => {
+          const response = await cmt.getCommentReplies(commentId)
+
+          if (response) {
+               console.log(response)
+               return response
+          }
+     }
+
      return (
           <commentContext.Provider
                value={{
@@ -100,6 +112,7 @@ export const CommentsProvider = ({
                     deleteComment,
                     toggleCommentLike,
                     fetchComments,
+                    fetchReplies,
                }}
           >
                {children}
@@ -118,12 +131,14 @@ export const useComments = () => {
           addComment,
           deleteComment,
           toggleCommentLike,
+          fetchReplies,
           fetchComments,
      } = context
 
      return {
           comments,
           addComment,
+          fetchReplies,
           deleteComment,
           toggleCommentLike,
           fetchComments,
