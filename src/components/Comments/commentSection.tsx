@@ -12,10 +12,16 @@ import {
 import { useComments } from "../../hooks/useComments"
 import { useDebounce } from "use-debounce"
 import { useStats } from "../..//hooks/useStats"
+import { Comment } from "../../hooks/useComments"
+import CommentCard from "../commentCard"
 
 interface CommentSectionProps {
      isFormVisible: boolean
      postId: string
+}
+
+interface Replies {
+     [key: string]: Comment[]
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
@@ -26,12 +32,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({
      const [replyingTo, setReplyingTo] = useState<string | null>(null)
      const [loading, setLoading] = useState(true)
      const [newReply, setNewReply] = useState("")
-     const [expandedReplies, setExpandedReplies] = useState<string[]>([])
+     const [expandedReplies, setExpandedReplies] = useState<Replies>({})
      const { incLocalCommentCount } = useStats(postId)
      const {
           addComment,
           deleteComment,
           toggleCommentLike,
+          fetchReplies,
           comments,
           fetchComments,
      } = useComments()
@@ -51,13 +58,22 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           }
      }
 
-     const toggleReplies = (commentId: string) => {
-          if (expandedReplies.includes(commentId)) {
-               setExpandedReplies(
-                    expandedReplies.filter(id => id !== commentId)
-               )
+     const toggleReplies = async (commentId: string) => {
+          if (expandedReplies[commentId]) {
+               const updatedReplies = { ...expandedReplies }
+               delete updatedReplies[commentId]
+               setExpandedReplies(updatedReplies)
           } else {
-               setExpandedReplies([...expandedReplies, commentId])
+               setLoading(true)
+
+               const replies = await fetchReplies(commentId)
+
+               setExpandedReplies({
+                    ...expandedReplies,
+                    [commentId]: replies,
+               })
+
+               setLoading(false)
           }
      }
 
@@ -229,17 +245,17 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                                                  )
                                                             }
                                                             aria-label={`${
-                                                                 expandedReplies.includes(
+                                                                 expandedReplies[
                                                                       comment.id
-                                                                 )
+                                                                 ]
                                                                       ? "Hide"
                                                                       : "Show"
                                                             } replies`}
                                                             className="text-gray-500 hover:text-gray-600 flex items-center"
                                                        >
-                                                            {expandedReplies.includes(
+                                                            {expandedReplies[
                                                                  comment.id
-                                                            ) ? (
+                                                            ] ? (
                                                                  <ChevronUp className="h-4 w-4 mr-1" />
                                                             ) : (
                                                                  <ChevronDown className="h-4 w-4 mr-1" />
@@ -293,13 +309,41 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                                                        </div>
                                                   </div>
                                              )}
-                                             {expandedReplies.includes(
-                                                  comment.id
-                                             ) && (
-                                                  <ul className="mt-4 space-y-4"></ul>
-                                             )}
                                         </div>
                                    </div>
+
+                                   {comments.length > 0 && (
+                                        <ul className="mt-4 space-y-4">
+                                             {comments.map(comment => (
+                                                  <CommentCard
+                                                       key={comment.id}
+                                                       comment={comment}
+                                                       toggleCommentLike={
+                                                            toggleCommentLike
+                                                       }
+                                                       deleteComment={
+                                                            deleteComment
+                                                       }
+                                                       setReplyingTo={
+                                                            setReplyingTo
+                                                       }
+                                                       handleReply={handleReply}
+                                                       newReply={newReply}
+                                                       setNewReply={setNewReply}
+                                                       expandedReplies={
+                                                            expandedReplies
+                                                       }
+                                                       toggleReplies={
+                                                            toggleReplies
+                                                       }
+                                                       isReplyingTo={replyingTo}
+                                                       setIsReplyingTo={
+                                                            setReplyingTo
+                                                       }
+                                                  />
+                                             ))}
+                                        </ul>
+                                   )}
                               </li>
                          ))}
                     </ul>

@@ -4,7 +4,7 @@ import { statsistics } from "../services/stats"
 
 type Author = { id: string; name: string; avatar: string }
 
-interface Comment {
+export interface Comment {
      id: string
      user: Author
      content: string
@@ -18,26 +18,21 @@ interface Comment {
 }
 
 interface CommentsContextProps {
-     comments: Comment[] | []
+     comments: Comment[]
      addComment: (
           content: string,
           postId: string,
           parentId?: string
-     ) => Promise<any>
+     ) => Promise<void>
      deleteComment: (id: string) => Promise<void>
      toggleCommentLike: (id: string) => Promise<void>
      fetchComments: (postId: string) => Promise<void>
-     fetchReplies: (commentId: string) => Promise<any>
+     fetchReplies: (commentId: string) => Promise<Comment[]>
 }
 
-const commentContext = createContext<CommentsContextProps>({
-     comments: [],
-     addComment: () => Promise.resolve(),
-     deleteComment: () => Promise.resolve(),
-     toggleCommentLike: () => Promise.resolve(),
-     fetchComments: () => Promise.resolve(),
-     fetchReplies: () => Promise.resolve(),
-})
+const commentContext = createContext<CommentsContextProps | undefined>(
+     undefined
+)
 
 export const CommentsProvider = ({
      children,
@@ -51,56 +46,80 @@ export const CommentsProvider = ({
           postId: string,
           parentId?: string
      ) => {
-          const response = await cmt.addComment(content, postId, parentId)
+          try {
+               const response = await cmt.addComment(content, postId, parentId)
 
-          if (response.statusCode === 200) {
-               comments.unshift(response.data)
+               console.log("response.data", response)
+
+               if (response.statusCode === 200) {
+                    setComments(prev => [response.data, ...prev])
+               }
+          } catch (error) {
+               console.error("Error adding comment:", error)
           }
      }
 
      const fetchComments = async (postId: string) => {
-          const response = await cmt.getComments(postId)
-
-          if (response) {
-               setComments(response.comments)
+          try {
+               const response = await cmt.getComments(postId)
+               if (response) {
+                    setComments(response.comments)
+               }
+          } catch (error) {
+               console.error("Error fetching comments:", error)
           }
      }
 
      const deleteComment = async (id: string) => {
-          const response = await cmt.deleteComment(id)
-          if (response.status === 200) {
-               setComments(comments.filter(comment => comment.id !== id))
+          try {
+               const response = await cmt.deleteComment(id)
+               if (response.status === 200) {
+                    setComments(prev =>
+                         prev.filter(comment => comment.id !== id)
+                    )
+               }
+          } catch (error) {
+               console.error("Error deleting comment:", error)
           }
      }
 
      const toggleCommentLike = async (id: string) => {
-          const response = await statsistics.toggleCommentLike(id)
-          if (response.status === 200) {
-               setComments(
-                    comments.map(comment =>
-                         comment.id === id
-                              ? {
-                                     ...comment,
-                                     _count: {
-                                          ...comment._count,
-                                          likes:
-                                               comment._count.likes === "1"
-                                                    ? "0"
-                                                    : "1",
-                                     },
-                                }
-                              : comment
+          try {
+               const response = await statsistics.toggleCommentLike(id)
+               if (response.status === 200) {
+                    setComments(prev =>
+                         prev.map(comment =>
+                              comment.id === id
+                                   ? {
+                                          ...comment,
+                                          _count: {
+                                               ...comment._count,
+                                               likes:
+                                                    comment._count.likes === "1"
+                                                         ? "0"
+                                                         : "1",
+                                          },
+                                     }
+                                   : comment
+                         )
                     )
-               )
+               }
+          } catch (error) {
+               console.error("Error toggling like:", error)
           }
      }
 
-     const fetchReplies = async (commentId: string) => {
-          const response = await cmt.getCommentReplies(commentId)
+     const fetchReplies = async (commentId: string): Promise<Comment[]> => {
+          try {
+               const response = await cmt.getCommentReplies(commentId)
 
-          if (response) {
-               console.log(response)
-               return response
+               if (response) {
+                    return response
+               }
+               return []
+          } catch (error) {
+               console.error("Error fetching replies:", error)
+               return []
           }
      }
 
@@ -122,25 +141,8 @@ export const CommentsProvider = ({
 
 export const useComments = () => {
      const context = useContext(commentContext)
-     if (!context) {
+     if (context === undefined) {
           throw new Error("useComments must be used within a CommentsProvider")
      }
-
-     const {
-          comments,
-          addComment,
-          deleteComment,
-          toggleCommentLike,
-          fetchReplies,
-          fetchComments,
-     } = context
-
-     return {
-          comments,
-          addComment,
-          fetchReplies,
-          deleteComment,
-          toggleCommentLike,
-          fetchComments,
-     }
+     return context
 }

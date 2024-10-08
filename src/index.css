@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+     font-family: SF-pro-display;
+     src: url("../public/fonts/sf-pro-display_regular.woff2") format("woff2");
+}
+
 :root {
      --toastify-color-success: #cccccc;
      --toastify-icon-color-success: var(--toastify-color-success);

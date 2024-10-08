@@ -23,7 +23,7 @@ class Stats extends Service {
 
      public async toggleCommentLike(commentId: string) {
           const response = await apiClient.post(
-               `${this.serverUrl}/likes/${commentId}`
+               `${this.serverUrl}/likes/co/${commentId}`
           )
           return response
      }

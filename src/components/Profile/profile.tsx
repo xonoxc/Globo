@@ -4,11 +4,15 @@ import "react-loading-skeleton/dist/skeleton.css"
 import ProfileFallback from "/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
 import { Button } from "../../components"
-import { History, Text, Bookmark } from "lucide-react"
+import { History, Text, Bookmark, ClipboardCheck } from "lucide-react"
 import getRelativeTime from "../../utils/date"
 import Fallback from "../../pages/Fallback"
 import DefaultCoverImage from "/cover_image.png"
 import { BookCheck } from "lucide-react"
+import { lazy } from "react"
+import { ToastContainer, toast } from "react-toastify"
+
+const ConnectionStrip = lazy(() => import("../connectionStrip"))
 
 interface IProfileProps {
      data: IUserProfile
@@ -30,6 +34,8 @@ export default function Profile({
      const navigate = useNavigate()
 
      if (!loading && !data) return <Fallback />
+
+     console.log(data.preferences.proUser)
 
      return (
           <div className="relative w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -100,8 +106,17 @@ export default function Profile({
                     )}
                </div>
 
+               <ConnectionStrip
+                    initialArticleCount={data.preferences?.articleCount}
+                    onShare={() =>
+                         toast.success("link copied to clipboard", {
+                              icon: <ClipboardCheck color="#0f1014" />,
+                         })
+                    }
+               />
+
                {/* Cards Section */}
-               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-4">
                     {/* Preferences Card */}
                     <div className="p-6 border rounded-lg shadow-md">
                          {loading ? (
@@ -114,9 +129,6 @@ export default function Profile({
                          ) : (
                               <div className="grid gap-4">
                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="text-lg font-semibold">
-                                             Preferences
-                                        </div>
                                         {data.preferences.proUser && (
                                              <div className="bg-gray-400 text-white px-2 py-1 rounded-md font-medium">
                                                   Pro User
@@ -124,15 +136,6 @@ export default function Profile({
                                         )}
                                    </div>
                                    <div className="grid gap-2 text-gray-500">
-                                        <div className="flex items-center justify-between">
-                                             <div>Articles</div>
-                                             <div>
-                                                  {
-                                                       data.preferences
-                                                            ?.articleCount
-                                                  }
-                                             </div>
-                                        </div>
                                         <div className="flex items-center justify-between">
                                              <div>Bio</div>
                                              <div className="text-right">
@@ -160,8 +163,8 @@ export default function Profile({
                               </>
                          ) : (
                               <>
-                                   <div className="p-6 border rounded-lg shadow-md mb-4">
-                                        <div className="text-lg font-semibold flex gap-1 items-center">
+                                   <div className="p-1 border rounded-lg shadow-md mb-4">
+                                        <div className="text-lg font-semibold flex gap-1 items-center bg-gray-100 p-2 rounded-lg">
                                              <History color="gray" />
                                              Recent Articles
                                         </div>
@@ -208,8 +211,8 @@ export default function Profile({
                               </>
                          ) : (
                               <>
-                                   <div className="p-6 border rounded-lg shadow-md mb-4">
-                                        <div className="text-lg font-semibold flex gap-1 items-center">
+                                   <div className="p-1 border rounded-lg shadow-md mb-4">
+                                        <div className="text-lg font-semibold  bg-gray-100  p-2 rounded-lg flex gap-1 items-center">
                                              <Bookmark color="gray" />
                                              Bookmarks
                                         </div>
@@ -245,6 +248,19 @@ export default function Profile({
                          )}
                     </div>
                </div>
+
+               <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+               />
           </div>
      )
 }

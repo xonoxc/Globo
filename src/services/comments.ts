@@ -27,9 +27,9 @@ class Comments extends Service {
           return response.data.data
      }
 
-     public async getCommentReplies(postId: string) {
+     public async getCommentReplies(commentId: string) {
           const response = await apiClient.get(
-               `${this.serverUrl}/comments/${postId}`
+               `${this.serverUrl}/comments/co/${commentId}`
           )
 
           return response.data.data
