@@ -6,19 +6,19 @@ import { SubscriptionProvider } from "../../hooks/useSubscription"
 import { StatsContextProvider } from "../../hooks/useStats"
 
 interface ContextWrapperProps {
-     children: ReactNode
+	children: ReactNode
 }
 
 const ContextWrapper = ({ children }: ContextWrapperProps) => {
-     return (
-          <Provider store={store}>
-               <ProfileContextProvider>
-                    <SubscriptionProvider>
-                         <StatsContextProvider>{children}</StatsContextProvider>
-                    </SubscriptionProvider>
-               </ProfileContextProvider>
-          </Provider>
-     )
+	return (
+		<Provider store={store}>
+			<ProfileContextProvider>
+				<SubscriptionProvider>
+					<StatsContextProvider>{children}</StatsContextProvider>
+				</SubscriptionProvider>
+			</ProfileContextProvider>
+		</Provider>
+	)
 }
 
 export default ContextWrapper
