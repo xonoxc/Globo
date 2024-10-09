@@ -11,7 +11,7 @@ import getRelativeTime from "../utils/date"
 
 interface CommentCardProps {
 	comment: any
-	toggleCommentLike: (commentId: string) => void
+	toggleCommentLike: (commentId: string, articleId: string) => void
 	deleteComment: (commentId: string) => void
 	setReplyingTo: (commentId: string | null) => void
 	handleReply: (commentId: string) => void
@@ -36,6 +36,8 @@ const CommentCard: React.FC<CommentCardProps> = ({
 	expandedReplies,
 	toggleReplies,
 }) => {
+	console.log("comments", comment)
+
 	return (
 		<li key={comment.id} className="border-t pt-4">
 			<div className="flex items-start space-x-4">
@@ -74,7 +76,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
 					<p className="mt-2 text-gray-700">{comment.content}</p>
 					<div className="mt-2 flex items-center space-x-4">
 						<button
-							onClick={() => toggleCommentLike(comment.id)}
+							onClick={() => toggleCommentLike(comment.id, comment.articleId)}
 							aria-label={`Like comment by ${comment.user.name}`}
 							className="text-blue-500 hover:text-blue-600 flex items-center"
 						>

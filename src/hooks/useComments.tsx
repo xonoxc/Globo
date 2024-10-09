@@ -25,7 +25,7 @@ interface CommentsContextProps {
 		parentId?: string
 	) => Promise<void>
 	deleteComment: (id: string) => Promise<void>
-	toggleCommentLike: (id: string) => Promise<void>
+	toggleCommentLike: (id: string, articleId: string) => Promise<void>
 	fetchComments: (postId: string) => Promise<void>
 	fetchReplies: (commentId: string) => Promise<Comment[]>
 }
@@ -83,9 +83,9 @@ export const CommentsProvider = ({
 		}
 	}
 
-	const toggleCommentLike = async (id: string) => {
+	const toggleCommentLike = async (id: string, articledId: string) => {
 		try {
-			const response = await statsistics.toggleCommentLike(id)
+			const response = await statsistics.toggleCommentLike(id, articledId)
 			if (response.status === 200) {
 				setComments(prev =>
 					prev.map(comment =>

@@ -152,7 +152,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				</div>
 			) : (
 				<ul className="space-y-6">
-					{comments.length > 0 && (
+					{comments?.length > 0 && (
 						<ul className="mt-4 space-y-4">
 							{comments?.map((comment, index) => (
 								<CommentCard
