@@ -4,9 +4,8 @@ import "react-loading-skeleton/dist/skeleton.css"
 import ProfileFallback from "/def_pfp.jpg"
 import { IUserProfile } from "../../types/apiResponse"
 import { Button } from "../../components"
-import { History, Text, Bookmark, ClipboardCheck } from "lucide-react"
+import { History, Text, Bookmark, ClipboardCheck, Check } from "lucide-react"
 import getRelativeTime from "../../utils/date"
-import Fallback from "../../pages/Fallback"
 import DefaultCoverImage from "/cover_image.png"
 import { BookCheck } from "lucide-react"
 import { lazy } from "react"
@@ -33,7 +32,7 @@ export default function Profile({
 }: IProfileProps) {
 	const navigate = useNavigate()
 
-	if (!loading && !data) return <Fallback />
+	console.log("data", data)
 
 	return (
 		<div className="relative w-full max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -43,21 +42,21 @@ export default function Profile({
 					<Skeleton className="w-full h-full object-cover" />
 				) : (
 					<img
-						src={data.coverImage || DefaultCoverImage}
+						src={data?.coverImage || DefaultCoverImage}
 						alt="Cover Image"
 						className="w-full h-full object-cover"
 					/>
 				)}
 			</div>
 
-			<div className="relative flex flex-col items-center md:items-start md:flex-row md:gap-6 mb-8">
+			<div className="relative flex flex-col md:flex-row items-center md:items-start md:flex-row md:gap-12 mb-8 justify-between">
 				{/* Avatar */}
-				<div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 md:mb-0">
+				<div className="absolute top-[-60px] md:top-[-70px] left-1/2 md:left-0 transform md:translate-x-0 -translate-x-1/2 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 md:mb-0">
 					{loading ? (
 						<Skeleton className="w-full h-full rounded-full bg-gray-300" />
 					) : (
 						<img
-							src={data.avatar || ProfileFallback}
+							src={data?.avatar || ProfileFallback}
 							alt="Profile Avatar"
 							className="w-full h-full object-cover"
 						/>
@@ -65,7 +64,7 @@ export default function Profile({
 				</div>
 
 				{/* Profile Section */}
-				<div className="flex flex-col items-center md:items-start">
+				<div className="flex flex-col items-center ml-5 mt-12  md:items-start md:mt-20">
 					{loading ? (
 						<>
 							<Skeleton className="w-36 h-8 rounded-md bg-gray-300 mb-2" />
@@ -75,12 +74,12 @@ export default function Profile({
 					) : (
 						<>
 							<div className="text-2xl font-bold mb-2">
-								{data.name}
+								{data?.name}
 							</div>
 							<div className="text-gray-500 mb-2">
-								{data.email}
+								{data?.email}
 							</div>
-							{data.isVerified && (
+							{data?.isVerified && (
 								<div className="bg-gray-500 text-white px-2 py-1 rounded-md font-medium">
 									Verified
 								</div>
@@ -91,11 +90,9 @@ export default function Profile({
 
 				{/* Edit Button */}
 				{isAuthor && (
-					<div className="mt-4 md:mt-0">
+					<div className="mt-4 md:mt-0 md:mr-5">
 						<Button
-							onClick={() =>
-								navigate(`/u/profile/e/${data.id}`)
-							}
+							onClick={() => navigate(`/u/profile/e/${data?.id}`)}
 							textColor="white"
 						>
 							Edit Profile
@@ -103,9 +100,24 @@ export default function Profile({
 					</div>
 				)}
 			</div>
+			{/* follows you section */}
+			{
+				data?.follows && (
+					<div className="follows-you-status flex items-center justify-center">
+						<span className="text-gray-500 font-bold px-4 bg-gray-300 w-2/3 rounded-lg flex items-center justify-center py-2 text-sm">
+							<Check size={17} />
+							Follows you
+						</span>
+					</div>
+				)
+			}
 
 			<ConnectionStrip
-				initialArticleCount={data.preferences?.articleCount}
+				initialFollowerCount={Number(data?.followers)}
+				initialFollowingCount={Number(data?.following)}
+				initialArticleCount={data?.preferences?.articleCount}
+				initialIsFollowing={data?.isFollowing}
+				userProfileId={data?.id}
 				onShare={() =>
 					toast.success("link copied to clipboard", {
 						icon: <ClipboardCheck color="#0f1014" />,
@@ -116,7 +128,7 @@ export default function Profile({
 			{/* Cards Section */}
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-4">
 				{/* Preferences Card */}
-				<div className="p-6 border rounded-lg shadow-md">
+				<div className="p-6 border rounded-lg">
 					{loading ? (
 						<>
 							<Skeleton className="w-32 h-6 rounded-md mb-4 bg-gray-300" />
@@ -127,7 +139,7 @@ export default function Profile({
 					) : (
 						<div className="grid gap-4">
 							<div className="flex items-center justify-between mb-4">
-								{data.preferences?.proUser && (
+								{data?.preferences?.proUser && (
 									<div className="bg-gray-400 text-white px-2 py-1 rounded-md font-medium">
 										Pro User
 									</div>
@@ -137,7 +149,7 @@ export default function Profile({
 								<div className="flex items-center justify-between">
 									<div>Bio</div>
 									<div className="text-right">
-										{data.preferences?.bio}
+										{data?.preferences?.bio}
 									</div>
 								</div>
 							</div>
@@ -160,36 +172,40 @@ export default function Profile({
 							</div>
 						</>
 					) : (
-						<>
-							<div className="p-1 border rounded-lg shadow-md mb-4">
-								<div className="text-lg font-semibold flex gap-1 items-center bg-gray-100 p-2 rounded-lg">
-									<History color="gray" />
-									Recent Articles
+						data?.articles?.length > 0 && (
+							<>
+								<div className="p-1 border rounded-lg  mb-4">
+									<div className="text-lg font-semibold flex gap-1 items-center bg-gray-100  rounded-lg">
+										<History color="gray" />
+										Recent Articles
+									</div>
 								</div>
-							</div>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								{data?.articles?.map((article, idx) => (
-									<Link
-										to={`/post/${article.id}`}
-										key={idx}
-									>
-										<div className="p-4 border rounded-lg shadow-md">
-											<div className="flex flex-col gap-2">
-												<div className="text-sm font-medium flex items-center gap-2 ">
-													<Text color="gray" />
-													{article.title}
-												</div>
-												<div className="text-xs text-gray-500">
-													{getRelativeTime(
-														article.createdAt
-													)}
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+									{data?.articles?.map((article, idx) => (
+										<Link
+											to={`/post/${article.id}`}
+											key={idx}
+										>
+											<div className="p-4 border rounded-lg shadow-md">
+												<div className="flex flex-col gap-2">
+													<div className="text-sm font-medium flex items-center gap-2 ">
+														<Text color="gray" />
+														{article.title}
+													</div>
+													<div className="text-xs text-gray-500">
+														{getRelativeTime(
+															article.createdAt
+														)}
+													</div>
 												</div>
 											</div>
-										</div>
-									</Link>
-								))}
-							</div>
-						</>
+										</Link>
+									))}
+								</div>
+							</>
+
+						)
+
 					)}
 				</div>
 
@@ -207,10 +223,10 @@ export default function Profile({
 								))}
 							</div>
 						</>
-					) : (
+					) : isAuthor && (
 						<>
 							<div className="p-1 border rounded-lg shadow-md mb-4">
-								<div className="text-lg font-semibold  bg-gray-100  p-2 rounded-lg flex gap-1 items-center">
+								<div className="text-lg font-semibold bg-gray-100 p-2 rounded-lg flex gap-1 items-center">
 									<Bookmark color="gray" />
 									Bookmarks
 								</div>

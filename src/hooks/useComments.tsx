@@ -48,11 +48,10 @@ export const CommentsProvider = ({
 	) => {
 		try {
 			const response = await cmt.addComment(content, postId, parentId)
-
-			console.log("response.data", response)
-
 			if (response.statusCode === 200) {
-				setComments(prev => [response.data, ...prev])
+				if (!parentId) {
+					setComments(prev => [response.data, ...prev])
+				}
 			}
 		} catch (error) {
 			console.error("Error adding comment:", error)

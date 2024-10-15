@@ -71,7 +71,6 @@ export default function Post(): JSX.Element {
 			})
 		}
 	}
-
 	const toggleCommentForm = () => {
 		setIsCommentFormVisible(!isCommentFormVisible)
 	}
@@ -79,6 +78,8 @@ export default function Post(): JSX.Element {
 	if (!post) {
 		return <></>
 	}
+
+
 
 	return (
 		<div className="py-8">
@@ -182,7 +183,7 @@ export default function Post(): JSX.Element {
 							displayAvatar
 							name={post.user?.name as string}
 							postId={post.id ? post.id.toString() : ""}
-							authorId={post.user?.id as string}
+							authorId={post?.user?.id as string}
 							avatar={post.user?.avatar as string}
 							createdAt={post?.createdAt as string}
 							onToggleCommentSection={toggleCommentForm}

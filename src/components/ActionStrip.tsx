@@ -32,8 +32,6 @@ const ActionStrip: React.FC<ActionStripProps> = ({
 		isLiked,
 	} = useStats(postId)
 
-	console.log("name", name)
-
 	if (isLoading) {
 		return (
 			<div className="w-full flex bg-gray-200 animate-pulse rounded-xl items-center md:justify-between px-4 md:flex-row flex-col">

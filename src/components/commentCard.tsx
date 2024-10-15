@@ -36,7 +36,6 @@ const CommentCard: React.FC<CommentCardProps> = ({
 	expandedReplies,
 	toggleReplies,
 }) => {
-	console.log("comments", comment)
 
 	return (
 		<li key={comment.id} className="border-t pt-4">
