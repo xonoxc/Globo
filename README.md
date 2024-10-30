@@ -8,7 +8,6 @@ Globo Blog is a modern blogging platform built with Vite and React. This applica
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
-- [Available Scripts](#available-scripts)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -25,10 +24,11 @@ Globo Blog is a modern blogging platform built with Vite and React. This applica
 
 ## Tech Stack
 
-- **Frontend:** React, Vite, Zustand for state management
+- **Frontend:** React, Vite, Redux for state management
 - **Styling:** CSS Modules / Styled Components (optional)
-- **Backend (optional):** Firebase / Node.js (API details here, if applicable)
-- **Authentication:** Firebase Authentication / Auth0 / Custom
+- **Backend :** Node.js  + Typescript 
+- **Authentication:** : Custom JWT authentication
+- **Caching** : Redis
 
 ## Getting Started
 
