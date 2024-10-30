@@ -89,6 +89,7 @@ export default function SearchResults(): JSX.Element {
                                         key={index}
                                         id={result.id as number}
                                         title={result.title as string}
+                                        authorId={result.User?.id as string}
                                         imageUrl={result.image as string}
                                         displayAvatar
                                         createdAt={result.createdAt as string}

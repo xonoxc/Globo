@@ -11,6 +11,11 @@ export interface PostProps {
           name: string
           avatar: string
      }
+     User?: {
+          id: string
+          name: string
+          avatar: string
+     }
      createdAt?: string
      updatedAt?: string
 }

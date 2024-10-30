@@ -28,6 +28,7 @@ export default function AllPosts(): JSX.Element {
                                    >
                                         <PostCard
                                              id={post.id as number}
+                                             authorId={post.user?.id as string}
                                              displayAvatar={false}
                                              imageUrl={post.image as string}
                                              title={post.title}
