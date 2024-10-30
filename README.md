@@ -1,30 +1,109 @@
-# React + TypeScript + Vite
+# Globo Blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Globo Blog is a modern blogging platform built with Vite and React. This application allows users to create, edit, view, and manage blog posts with an intuitive, high-performance UI.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Create, edit, and delete blog posts
+- Rich text editor support
+- Responsive and optimized for performance
+- User authentication and authorization
+- SEO-friendly
+- Dynamic routing for blog posts
+- Commenting functionality with replies
+- State management using Zustand
 
-- Configure the top-level `parserOptions` property like this:
+## Tech Stack
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Frontend:** React, Vite, Zustand for state management
+- **Styling:** CSS Modules / Styled Components (optional)
+- **Backend (optional):** Firebase / Node.js (API details here, if applicable)
+- **Authentication:** Firebase Authentication / Auth0 / Custom
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>= 14.x.x) and npm (>= 6.x.x) or yarn (>= 1.22.x)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/globo-blog.git
+   cd globo-blog
+   ```
+
+
+2. Install dependencies:
+
+	```bash
+		npm install
+        # or
+        yarn install
+	```
+
+
+3. Create a .env file and add environment variables as stated in .env.sample file
+
+### Running the application
+
+1.  To start the development server:
+
+	```bash 
+       npm run dev
+       # or
+       yarn dev
+    ```
+
+
+Open [http://localhost:5173](http://localhost:5173) to view the app in the browser
+
+## Production Build
+
+1. To build the project for production, run:
+
+	```bash 
+       npm run build
+       # or
+       yarn build
+    ```
+
+
+## Project Structure
+
+	```bash
+
+		├── public          # Static assets
+		├── src
+		│   ├── assets      # Image and other assets
+		│   ├── components  # Reusable components
+		│   ├── pages       # Page components (Home, Blog, etc.)
+		│   ├── hooks       # Custom hooks
+		│   ├── store       # Zustand store
+		│   ├── utils       # Utility functions
+		│   └── App.jsx     # Main App component
+		├── .env            # Environment variables
+		└── vite.config.js  # Vite configuration
+    ```
+
+
+# Contributing
+
+Contributions are welcomed! Please submit a pull request or open an issue for feature requests and bug fixes.
+
+
+# License
+
+This project is licensed under the MIT license.
