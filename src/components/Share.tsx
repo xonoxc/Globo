@@ -11,7 +11,6 @@ const ShareButton = ({
      const getPageUrl = () => window.location.href
 
      const handleClick = () => {
-          console.log("share clicked")
           navigator.clipboard.writeText(getPageUrl())
           done()
      }
