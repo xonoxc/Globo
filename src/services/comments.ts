@@ -27,11 +27,10 @@ class Comments extends Service {
           return response.data.data
      }
 
-     public async getCommentReplies(commentId: string) {
+     public async getCommentLikeStatus(commentId: string) {
           const response = await apiClient.get(
                `${this.serverUrl}/comments/co/${commentId}`
           )
-
           return response.data.data
      }
 
