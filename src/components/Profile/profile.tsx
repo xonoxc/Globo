@@ -47,7 +47,7 @@ export default function Profile({
                     )}
                </div>
 
-               <div className="relative flex flex-col md:flex-row items-center md:items-start md:flex-row md:gap-12 mb-8 justify-between">
+               <div className="relative flex flex-col items-center md:items-start md:flex-row md:gap-12 mb-8 justify-between">
                     {/* Avatar */}
                     <div className="absolute top-[-60px] md:top-[-70px] left-1/2 md:left-0 transform md:translate-x-0 -translate-x-1/2 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 md:mb-0">
                          {loading ? (
