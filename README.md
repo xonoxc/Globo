@@ -98,6 +98,10 @@ Open [http://localhost:5173](http://localhost:5173) to view the app in the brows
 		└── vite.config.js  # Vite configuration
     ```
 
+## Api repository
+
+See [backend](https://github.com/xonoxc/Globo_backend) for the backend and api portion
+
 
 # Contributing
 
