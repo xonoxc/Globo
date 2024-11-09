@@ -41,15 +41,15 @@ Globo Blog is a modern blogging platform built with Vite and React. This applica
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/globo-blog.git
-   cd globo-blog
+   git clone https://github.com/xonoxc/Globo.git
+   cd Globo
    ```
 
 
 2. Install dependencies:
 
 	```bash
-		npm install
+	    npm install
         # or
         yarn install
 	```
@@ -61,11 +61,11 @@ Globo Blog is a modern blogging platform built with Vite and React. This applica
 
 1.  To start the development server:
 
-	```bash 
-       npm run dev
-       # or
-       yarn dev
-    ```
+	```bash
+		npm install
+		#or
+		yarn install
+	```
 
 
 Open [http://localhost:5173](http://localhost:5173) to view the app in the browser
@@ -83,6 +83,9 @@ Open [http://localhost:5173](http://localhost:5173) to view the app in the brows
 
 ## Project Structure
 
+  > [!NOTE]
+  > this is general overview of the project structure files may change as development progresses
+
 	```bash
 
 		├── public          # Static assets
@@ -91,7 +94,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the app in the brows
 		│   ├── components  # Reusable components
 		│   ├── pages       # Page components (Home, Blog, etc.)
 		│   ├── hooks       # Custom hooks
-		│   ├── store       # Zustand store
+		│   ├── store       # Redux store
 		│   ├── utils       # Utility functions
 		│   └── App.jsx     # Main App component
 		├── .env            # Environment variables
@@ -100,7 +103,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the app in the brows
 
 ## Api repository
 
-See [backend](https://github.com/xonoxc/Globo_backend) for the backend and api portion
+See [backend](https://github.com/xonoxc/Globo_backend.git) for the backend and api portion
 
 
 # Contributing
